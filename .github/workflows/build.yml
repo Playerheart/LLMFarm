@@ -31,7 +31,7 @@ jobs:
         fi
         cd ../../..
 
-    # ЭТАП 2: Собираем приложение (правильная схема подбирается автоматически)
+    # ЭТАП 2: Собираем приложение (с отключёнными App Intents)
     - name: Build the app (Unsigned)
       run: |
         echo "=== Все схемы проекта ==="
@@ -61,7 +61,10 @@ jobs:
           -derivedDataPath ./build \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGNING_ALLOWED=NO \
+          ENABLE_APP_INTENTS_METADATA_EXTRACTION=NO \
+          EXTRACT_APP_INTENTS_METADATA=NO \
+          APP_INTENTS_METADATA_EXTRACTION_DISABLED=YES
 
     - name: Package into IPA
       run: |
