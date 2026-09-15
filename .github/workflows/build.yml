@@ -1,1 +1,47 @@
+name: Build iOS App
 
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # это позволит запускать сборку вручную кнопкой
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive' # Критично для LLMFarm, у него есть подмодули
+
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode.app
+
+    - name: Build the app (Unsigned)
+      run: |
+        # Пытаемся собрать проект. Имя схемы может отличаться, нужно проверить.
+        # Обычно это LLMFarm или LLMFarmApp
+        xcodebuild clean build \
+          -project LLMFarm.xcodeproj \
+          -scheme LLMFarm \
+          -configuration Release \
+          -sdk iphoneos \
+          -derivedDataPath ./build \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO
+
+    - name: Package into IPA
+      run: |
+        mkdir -p Payload
+        # Ищем собранный .app файл в папке сборки
+        find ./build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 -exec cp -r {} Payload/ \;
+        # Запаковываем в IPA
+        zip -r LLMFarm.ipa Payload
+
+    - name: Upload IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: LLMFarm-IPA
+        path: LLMFarm.ipa
