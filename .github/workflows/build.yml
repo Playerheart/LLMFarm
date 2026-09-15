@@ -18,8 +18,19 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
-    # ЭТАП 1: Собираем llama.xcframework
+    # КЭШ 1: llama.xcframework (самая тяжёлая часть сборки)
+    - name: Cache llama.xcframework
+      id: cache-llama
+      uses: actions/cache@v4
+      with:
+        path: llmfarm_core.swift/llama.cpp/build-apple/llama.xcframework
+        key: llama-xcframework-${{ hashFiles('llmfarm_core.swift/llama.cpp/CMakeLists.txt', 'llmfarm_core.swift/llama.cpp/ggml/**', 'llmfarm_core.swift/llama.cpp/src/**') }}
+        restore-keys: |
+          llama-xcframework-
+
+    # ЭТАП 1: Собираем llama.xcframework (только если нет в кэше)
     - name: Build llama.xcframework
+      if: steps.cache-llama.outputs.cache-hit != 'true'
       run: |
         cd llmfarm_core.swift/llama.cpp
         if [ -f "build-xcframework.sh" ]; then
@@ -31,7 +42,37 @@ jobs:
         fi
         cd ../../..
 
-    # ЭТАП 2: Собираем приложение (с отключёнными App Intents)
+    - name: Verify llama.xcframework exists
+      run: |
+        if [ ! -d "llmfarm_core.swift/llama.cpp/build-apple/llama.xcframework" ]; then
+          echo "❌ llama.xcframework отсутствует!"
+          exit 1
+        fi
+        echo "✅ llama.xcframework на месте"
+
+    # КЭШ 2: Swift Package Manager
+    - name: Cache Swift Package Manager
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/Library/Caches/org.swift.swiftpm
+          ~/Library/org.swift.swiftpm
+          .build
+          build/SourcePackages
+        key: spm-${{ hashFiles('**/Package.resolved', '**/Package.swift') }}
+        restore-keys: |
+          spm-
+
+    # КЭШ 3: Xcode DerivedData (переиспользуемые объекты)
+    - name: Cache Xcode DerivedData
+      uses: actions/cache@v4
+      with:
+        path: build
+        key: derived-${{ hashFiles('LLMFarm/**/*.swift', 'LLMFarm.xcodeproj/project.pbxproj') }}
+        restore-keys: |
+          derived-
+
+    # ЭТАП 2: Собираем приложение
     - name: Build the app (Unsigned)
       run: |
         echo "=== Все схемы проекта ==="
@@ -61,10 +102,7 @@ jobs:
           -derivedDataPath ./build \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO \
-          ENABLE_APP_INTENTS_METADATA_EXTRACTION=NO \
-          EXTRACT_APP_INTENTS_METADATA=NO \
-          APP_INTENTS_METADATA_EXTRACTION_DISABLED=YES
+          CODE_SIGNING_ALLOWED=NO
 
     - name: Package into IPA
       run: |
