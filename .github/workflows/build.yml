@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout repository
@@ -18,7 +20,6 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
-    # КЭШ 1: llama.xcframework (самая тяжёлая часть сборки)
     - name: Cache llama.xcframework
       id: cache-llama
       uses: actions/cache@v4
@@ -28,7 +29,6 @@ jobs:
         restore-keys: |
           llama-xcframework-
 
-    # ЭТАП 1: Собираем llama.xcframework (только если нет в кэше)
     - name: Build llama.xcframework
       if: steps.cache-llama.outputs.cache-hit != 'true'
       run: |
@@ -50,7 +50,6 @@ jobs:
         fi
         echo "✅ llama.xcframework на месте"
 
-    # КЭШ 2: Swift Package Manager
     - name: Cache Swift Package Manager
       uses: actions/cache@v4
       with:
@@ -63,7 +62,6 @@ jobs:
         restore-keys: |
           spm-
 
-    # КЭШ 3: Xcode DerivedData (переиспользуемые объекты)
     - name: Cache Xcode DerivedData
       uses: actions/cache@v4
       with:
@@ -72,7 +70,6 @@ jobs:
         restore-keys: |
           derived-
 
-    # ЭТАП 2: Собираем приложение
     - name: Build the app (Unsigned)
       run: |
         echo "=== Все схемы проекта ==="
@@ -110,8 +107,30 @@ jobs:
         find ./build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 -exec cp -r {} Payload/ \;
         zip -r LLMFarm.ipa Payload
 
-    - name: Upload IPA
+    - name: Upload IPA (artifact)
       uses: actions/upload-artifact@v4
       with:
         name: LLMFarm-IPA
         path: LLMFarm.ipa
+
+    # НОВОЕ: Автоматический релиз
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y-%m-%d_%H-%M')" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: build-${{ steps.date.outputs.date }}
+        name: "LLMFarm build ${{ steps.date.outputs.date }}"
+        body: |
+          Автоматическая сборка LLMFarm.
+          
+          **Дата:** ${{ steps.date.outputs.date }}
+          **Commit:** ${{ github.sha }}
+          **Размер:** ~466 МБ
+          
+          Неподписанный `.ipa` — подпиши его в ESign перед установкой.
+        files: LLMFarm.ipa
+        draft: false
+        prerelease: false
