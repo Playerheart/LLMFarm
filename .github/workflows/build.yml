@@ -22,7 +22,6 @@ jobs:
     - name: Build llama.xcframework
       run: |
         cd llmfarm_core.swift/llama.cpp
-        # Проверяем, есть ли скрипт сборки
         if [ -f "build-xcframework.sh" ]; then
           chmod +x build-xcframework.sh
           ./build-xcframework.sh
@@ -32,12 +31,14 @@ jobs:
         fi
         cd ../../..
 
-    # ЭТАП 2: Собираем приложение
+    # ЭТАП 2: Собираем приложение (имя схемы определяется автоматически)
     - name: Build the app (Unsigned)
       run: |
+        SCHEME_NAME=$(xcodebuild -list -project LLMFarm.xcodeproj | awk '/Schemes:/{getline; gsub(/^[ \t]+/, ""); print; exit}')
+        echo "Using scheme: $SCHEME_NAME"
         xcodebuild clean build \
           -project LLMFarm.xcodeproj \
-          -scheme LLMFarm \
+          -scheme "$SCHEME_NAME" \
           -configuration Release \
           -sdk iphoneos \
           -derivedDataPath ./build \
