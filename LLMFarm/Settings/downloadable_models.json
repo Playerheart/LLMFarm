@@ -1,4 +1,4 @@
-[    
+[
     {
         "name": "Llama 3.2 Instruct 1B",
         "models": [
@@ -27,7 +27,7 @@
                 "Q": "IQ3_M"
             }
         ]
-    }, 
+    },
     {
         "name": "Gemma v2 2B",
         "models": [
@@ -42,7 +42,7 @@
                 "file_name": "gemma_2b_it_v2_IQ4_NL.gguf",
                 "size": "",
                 "Q": "IQ4_NL"
-            },            
+            },
             {
                 "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/gemma%202b_it_v2_Q6_K.gguf",
                 "file_name": "gemma_2b_it_v2_Q6_K.gguf",
@@ -85,7 +85,7 @@
                 "Q": "IQ3_S"
             }
         ]
-    },       
+    },
     {
         "name": "Llama 3.2 Instruct 3B",
         "models": [
@@ -114,7 +114,18 @@
                 "Q": "IQ3_M"
             }
         ]
-    }, 
+    },
+    {
+        "name": "Llama 3.1 8B Instruct",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q2_K.gguf?download=true",
+                "file_name": "Meta-Llama-3.1-8B-Instruct-Q2_K.gguf",
+                "size": "3.18",
+                "Q": "Q2_K"
+            }
+        ]
+    },
     {
         "name": "Phi-3.5-mini-instruct",
         "models": [
@@ -146,7 +157,7 @@
                 "url": "https://huggingface.co/PrunaAI/Phi-3-mini-128k-instruct-GGUF-Imatrix-smashed/resolve/main/Phi-3-mini-128k-instruct.Q4_K_S.gguf?download=true",
                 "size": "1.48",
                 "Q": "Q4_K_S"
-            },            
+            },
             {
                 "url": "https://huggingface.co/PrunaAI/Phi-3-mini-128k-instruct-GGUF-Imatrix-smashed/resolve/main/Phi-3-mini-128k-instruct.Q5_K_M.gguf?download=true",
                 "file_name": "Phi-3-mini-128k-instruct.Q5_K_M.gguf",
@@ -212,7 +223,7 @@
                 "Q": "CLIP"
             }
         ]
-    },  
+    },
     {
         "name": "MobileVLM 1.7B",
         "models": [
@@ -241,7 +252,7 @@
                 "Q": "CLIP"
             }
         ]
-    },    
+    },
     {
         "name": "MobileVLM 3B",
         "models": [
@@ -270,7 +281,7 @@
                 "Q": "CLIP"
             }
         ]
-    },    
+    },
     {
         "name": "ORCA mini 3B",
         "models": [
@@ -288,7 +299,6 @@
             }
         ]
     },
-    
     {
         "name": "Marx 3B V3",
         "models": [
@@ -320,7 +330,6 @@
                 "url": "https://huggingface.co/guinmoon/LLMFarm_Models/resolve/main/stablelm-3b-4e1t-Q4_K_M.gguf?download=true",
                 "size": "",
                 "Q": "Q4_K_M"
-                
             },
             {
                 "file_name": "stablelm-3b-4e1t-Q3_K_S.gguf",
@@ -334,8 +343,6 @@
                 "size": "",
                 "Q": "Q8_0"
             }
-            
-            
         ]
     },
     {
@@ -398,7 +405,161 @@
                 "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf?download=true",
                 "size": "",
                 "Q": "Q4_K_M"
-            }            
+            }
         ]
-    }    
+    },
+    {
+        "name": "Qwen2.5 1.5B Instruct",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen2.5-1.5B-Instruct-Q4_K_M.gguf",
+                "size": "1.12",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-1.5B-Instruct-Q5_K_M.gguf?download=true",
+                "file_name": "Qwen2.5-1.5B-Instruct-Q5_K_M.gguf",
+                "size": "1.31",
+                "Q": "Q5_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-1.5B-Instruct-Q8_0.gguf?download=true",
+                "file_name": "Qwen2.5-1.5B-Instruct-Q8_0.gguf",
+                "size": "1.89",
+                "Q": "Q8_0"
+            }
+        ]
+    },
+    {
+        "name": "Qwen2.5 3B Instruct",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen2.5-3B-Instruct-Q4_K_M.gguf",
+                "size": "2.08",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct-Q5_K_M.gguf?download=true",
+                "file_name": "Qwen2.5-3B-Instruct-Q5_K_M.gguf",
+                "size": "2.41",
+                "Q": "Q5_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct-IQ3_M.gguf?download=true",
+                "file_name": "Qwen2.5-3B-Instruct-IQ3_M.gguf",
+                "size": "1.55",
+                "Q": "IQ3_M"
+            }
+        ]
+    },
+    {
+        "name": "Qwen2.5 7B Instruct",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen2.5-7B-Instruct-Q4_K_M.gguf",
+                "size": "4.68",
+                "Q": "Q4_K_M"
+            }
+        ]
+    },
+    {
+        "name": "Qwen3.5 0.8B",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3.5-0.8B-Q4_K_M.gguf",
+                "size": "0.51",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q5_K_M.gguf?download=true",
+                "file_name": "Qwen3.5-0.8B-Q5_K_M.gguf",
+                "size": "0.59",
+                "Q": "Q5_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q8_0.gguf?download=true",
+                "file_name": "Qwen3.5-0.8B-Q8_0.gguf",
+                "size": "0.81",
+                "Q": "Q8_0"
+            }
+        ]
+    },
+    {
+        "name": "Qwen3.5 4B",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3.5-4B-Q4_K_M.gguf",
+                "size": "2.50",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q5_K_M.gguf?download=true",
+                "file_name": "Qwen3.5-4B-Q5_K_M.gguf",
+                "size": "2.89",
+                "Q": "Q5_K_M"
+            }
+        ]
+    },
+    {
+        "name": "Qwen3.5 9B",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3.5-9B-Q4_K_M.gguf",
+                "size": "5.63",
+                "Q": "Q4_K_M"
+            }
+        ]
+    },
+    {
+        "name": "DeepSeek-R1-Distill-Qwen 1.5B",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf?download=true",
+                "file_name": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf",
+                "size": "1.12",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q5_K_M.gguf?download=true",
+                "file_name": "DeepSeek-R1-Distill-Qwen-1.5B-Q5_K_M.gguf",
+                "size": "1.31",
+                "Q": "Q5_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q8_0.gguf?download=true",
+                "file_name": "DeepSeek-R1-Distill-Qwen-1.5B-Q8_0.gguf",
+                "size": "1.89",
+                "Q": "Q8_0"
+            }
+        ]
+    },
+    {
+        "name": "SmolLM2 1.7B Instruct",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/SmolLM2-1.7B-Instruct-GGUF/resolve/main/SmolLM2-1.7B-Instruct-Q4_K_M.gguf?download=true",
+                "file_name": "SmolLM2-1.7B-Instruct-Q4_K_M.gguf",
+                "size": "1.06",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/SmolLM2-1.7B-Instruct-GGUF/resolve/main/SmolLM2-1.7B-Instruct-Q5_K_M.gguf?download=true",
+                "file_name": "SmolLM2-1.7B-Instruct-Q5_K_M.gguf",
+                "size": "1.24",
+                "Q": "Q5_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/SmolLM2-1.7B-Instruct-GGUF/resolve/main/SmolLM2-1.7B-Instruct-Q8_0.gguf?download=true",
+                "file_name": "SmolLM2-1.7B-Instruct-Q8_0.gguf",
+                "size": "1.81",
+                "Q": "Q8_0"
+            }
+        ]
+    }
 ]
