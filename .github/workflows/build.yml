@@ -18,15 +18,15 @@ jobs:
         submodules: 'recursive'
         fetch-depth: 0
 
-    # НОВОЕ: Обновляем сабмодуль llama.cpp до нужной сборки
     - name: Update llama.cpp submodule
       run: |
         cd llmfarm_core.swift/llama.cpp
-        git fetch --tags --depth=1 origin
-        # Укажи нужный тег. b8140+ — поддержка Qwen3.5, GPT-OSS и MoE
-        git checkout b8140
+        echo "=== Origin URL ==="
+        git remote -v
+        git fetch --depth=1 origin master
+        git checkout origin/master
         git submodule update --init --recursive
-        echo "=== llama.cpp обновлён до: $(git describe --tags) ==="
+        echo "=== llama.cpp обновлён до: $(git rev-parse --short HEAD) ==="
         cd ../../..
 
     - name: Select Xcode
@@ -37,9 +37,8 @@ jobs:
       uses: actions/cache@v4
       with:
         path: llmfarm_core.swift/llama.cpp/build-apple/llama.xcframework
-        key: llama-xcframework-b8140-${{ hashFiles('llmfarm_core.swift/llama.cpp/CMakeLists.txt', 'llmfarm_core.swift/llama.cpp/ggml/**', 'llmfarm_core.swift/llama.cpp/src/**') }}
+        key: llama-xcframework-${{ hashFiles('llmfarm_core.swift/llama.cpp/CMakeLists.txt', 'llmfarm_core.swift/llama.cpp/ggml/**', 'llmfarm_core.swift/llama.cpp/src/**') }}
         restore-keys: |
-          llama-xcframework-b8140-
           llama-xcframework-
 
     - name: Build llama.xcframework
@@ -134,7 +133,7 @@ jobs:
       id: llama_version
       run: |
         cd llmfarm_core.swift/llama.cpp
-        VERSION=$(git describe --tags 2>/dev/null || echo "unknown")
+        VERSION=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
         echo "version=$VERSION" >> $GITHUB_OUTPUT
 
     - name: Create Release
