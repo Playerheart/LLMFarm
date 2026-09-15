@@ -3,7 +3,7 @@ name: Build iOS App
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # это позволит запускать сборку вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,15 +13,28 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        submodules: 'recursive' # Критично для LLMFarm, у него есть подмодули
+        submodules: 'recursive'
 
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
+    # ЭТАП 1: Собираем llama.xcframework
+    - name: Build llama.xcframework
+      run: |
+        cd llmfarm_core.swift/llama.cpp
+        # Проверяем, есть ли скрипт сборки
+        if [ -f "build-xcframework.sh" ]; then
+          chmod +x build-xcframework.sh
+          ./build-xcframework.sh
+        else
+          echo "Скрипт build-xcframework.sh не найден!"
+          exit 1
+        fi
+        cd ../../..
+
+    # ЭТАП 2: Собираем приложение
     - name: Build the app (Unsigned)
       run: |
-        # Пытаемся собрать проект. Имя схемы может отличаться, нужно проверить.
-        # Обычно это LLMFarm или LLMFarmApp
         xcodebuild clean build \
           -project LLMFarm.xcodeproj \
           -scheme LLMFarm \
@@ -35,9 +48,7 @@ jobs:
     - name: Package into IPA
       run: |
         mkdir -p Payload
-        # Ищем собранный .app файл в папке сборки
         find ./build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 -exec cp -r {} Payload/ \;
-        # Запаковываем в IPA
         zip -r LLMFarm.ipa Payload
 
     - name: Upload IPA
