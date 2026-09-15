@@ -31,16 +31,33 @@ jobs:
         fi
         cd ../../..
 
-    # ЭТАП 2: Собираем приложение (имя схемы определяется автоматически)
+    # ЭТАП 2: Собираем приложение (правильная схема подбирается автоматически)
     - name: Build the app (Unsigned)
       run: |
-        SCHEME_NAME=$(xcodebuild -list -project LLMFarm.xcodeproj | awk '/Schemes:/{getline; gsub(/^[ \t]+/, ""); print; exit}')
-        echo "Using scheme: $SCHEME_NAME"
+        echo "=== Все схемы проекта ==="
+        xcodebuild -list -project LLMFarm.xcodeproj
+        
+        SCHEME_NAME=$(xcodebuild -list -project LLMFarm.xcodeproj \
+          | awk '/Schemes:/{flag=1; next} /^$/{flag=0} flag' \
+          | grep -i "LLMFarm" \
+          | grep -vi "test" \
+          | grep -vi "finetune" \
+          | head -1 \
+          | xargs)
+        
+        echo "=== Выбрана схема: $SCHEME_NAME ==="
+        
+        if [ -z "$SCHEME_NAME" ]; then
+          echo "Не удалось найти подходящую схему!"
+          exit 1
+        fi
+        
         xcodebuild clean build \
           -project LLMFarm.xcodeproj \
           -scheme "$SCHEME_NAME" \
           -configuration Release \
           -sdk iphoneos \
+          -destination 'generic/platform=iOS' \
           -derivedDataPath ./build \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
