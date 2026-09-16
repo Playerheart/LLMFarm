@@ -17,17 +17,80 @@ struct AdditionalSettingsView: View {
     var get_chat_options_dict: (Bool) -> Dictionary<String, Any>
     var refresh_templates: () -> Void
     
+    /// Идентификатор открытого popover'а (nil — закрыт)
+    @State private var activeInfo: String? = nil
+    
+    // MARK: - Info button
+    
+    private func infoButton(key: String,
+                            title: String,
+                            description: String) -> some View {
+        Button {
+            activeInfo = (activeInfo == key) ? nil : key
+        } label: {
+            Image(systemName: "info.circle")
+                .foregroundColor(.secondary)
+                .font(.caption)
+        }
+        .buttonStyle(.plain)
+        .popover(isPresented: Binding(
+            get: { activeInfo == key },
+            set: { if !$0 { activeInfo = nil } }
+        )) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title)
+                    .font(.headline)
+                Text(description)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(12)
+            .frame(maxWidth: 280)
+            .presentationCompactAdaptation(.popover)
+        }
+    }
+    
+    // MARK: - Display name for chat styles
+    
+    /// Переводит техническое имя стиля чата для отображения в Picker.
+    /// Хранимое значение (chat_style) остаётся английским — оно сохраняется в конфиг.
+    private func chatStyleDisplayName(_ value: String) -> String {
+        switch value {
+        case "None":
+            return NSLocalizedString("additional.chatStyle.none", comment: "Стиль чата: без оформления")
+        case "DocC":
+            return NSLocalizedString("additional.chatStyle.docc", comment: "Стиль чата: DocC")
+        case "Basic":
+            return NSLocalizedString("additional.chatStyle.basic", comment: "Стиль чата: Basic")
+        case "GitHub":
+            return NSLocalizedString("additional.chatStyle.github", comment: "Стиль чата: GitHub")
+        default:
+            return value
+        }
+    }
+    
+    // MARK: - Body
+    
     var body: some View {
         VStack{
-            Text("Save as new template:")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 5)
+            HStack(spacing: 4) {
+                Text("additional.saveAsTemplate")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                infoButton(
+                    key: "saveAsTemplate",
+                    title: NSLocalizedString("additional.saveAsTemplate", comment: ""),
+                    description: NSLocalizedString("additional.saveAsTemplate.desc", comment: "")
+                )
+            }
+            .padding(.horizontal, 5)
+            
             HStack {
 #if os(macOS)
                 DidEndEditingTextField(text: $save_as_template_name,didEndEditing: { newName in})
                     .frame(maxWidth: .infinity, alignment: .leading)
 #else
-                TextField("New template name...", text: $save_as_template_name)
+                TextField("additional.newTemplatePlaceholder", text: $save_as_template_name)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .textFieldStyle(.plain)
 #endif
@@ -47,21 +110,33 @@ struct AdditionalSettingsView: View {
         }
         .padding(.top)
         
-        HStack {
-            Toggle("Save/Load State", isOn: $save_load_state)
-                .frame(maxWidth: 220, alignment: .leading)
+        HStack(spacing: 4) {
+            Text("additional.saveLoadState")
+            infoButton(
+                key: "saveLoadState",
+                title: NSLocalizedString("additional.saveLoadState", comment: ""),
+                description: NSLocalizedString("additional.saveLoadState.desc", comment: "")
+            )
+            Toggle("", isOn: $save_load_state)
+                .labelsHidden()
              Spacer()
         }
+        .frame(maxWidth: 200, alignment: .leading)
         .padding(.top, 5)
         .padding(.horizontal, 5)
         .padding(.bottom, 4)
 
-        HStack{
-            Text("Chat Style:")
+        HStack(spacing: 4){
+            Text("additional.chatStyle")
                 .frame(maxWidth: .infinity, alignment: .leading)
+            infoButton(
+                key: "chatStyle",
+                title: NSLocalizedString("additional.chatStyle", comment: ""),
+                description: NSLocalizedString("additional.chatStyle.desc", comment: "")
+            )
             Picker("", selection: $chat_style) {
                 ForEach(chat_styles, id: \.self) {
-                    Text($0)
+                    Text(chatStyleDisplayName($0))
                 }
             }
             .pickerStyle(.menu)            
