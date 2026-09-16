@@ -1,201 +1,291 @@
 /* =========================================================
-   LLMFarm — English strings
+   LLMFarm (playerheart fork) — Русские строки
    ========================================================= */
 
-/* --- Download button --- */
+/* --- Кнопка загрузки (DownloadButton.swift) --- */
 
-"download.status.unknown" = "Unknown status";
-"download.qwen3.title" = "Qwen3 — experimental support";
-"download.qwen3.message" = "This model may not work in this app yet. We are working on it! Thank you.\n\nContinue downloading?";
-"download.qwen3.button.no" = "No";
-"download.qwen3.button.continue" = "Yes, continue";
-"download.exit.title" = "Don't leave the app";
-"download.exit.message" = "While the model is downloading, do not leave or minimize the app. If you exit, the download will be interrupted and will start over.";
-"download.exit.button.cancel" = "Cancel";
-"download.exit.button.start" = "Start download";
-"download.error.title" = "Download error";
-"download.error.button.ok" = "OK";
-"download.error.invalidURL" = "Invalid URL: %@";
-"download.error.corrupted" = "File is corrupted (size %lld B). Server response: %@";
+"download.status.unknown" = "Неизвестный статус";
+"download.qwen3.title" = "Qwen3 — экспериментальная поддержка";
+"download.qwen3.message" = "Эта модель может пока не работать в этом приложении. Мы над этим работаем! Спасибо.\n\nПродолжить загрузку?";
+"download.qwen3.button.no" = "Нет";
+"download.qwen3.button.continue" = "Да, продолжить";
+"download.exit.title" = "Не выходите из приложения";
+"download.exit.message" = "Пока модель загружается, не выходите из приложения и не сворачивайте его. При выходе загрузка прервётся и начнётся заново.";
+"download.exit.button.cancel" = "Отмена";
+"download.exit.button.start" = "Начать загрузку";
+"download.error.title" = "Ошибка загрузки";
+"download.error.button.ok" = "ОК";
+"download.error.invalidURL" = "Некорректный URL: %@";
+"download.error.corrupted" = "Файл повреждён (размер %lld Б). Ответ сервера: %@";
 
 
-/* --- Chat --- */
+/* --- Чат (ChatView.swift, LLMTextInput.swift) --- */
 
-"chat.input.placeholder" = "Type your message...";
-"chat.input.defaultPlaceholder" = "Message";
-"chat.status.loadingModel" = "Loading model into memory…";
-"chat.status.ragIndexLoading" = "Loading RAG index…";
-"chat.status.ragSearch" = "Searching documents…";
-"chat.clear.title" = "Are you sure?";
-"chat.clear.button.cancel" = "Cancel";
-"chat.clear.button.clear" = "Clear";
-"chat.clear.message" = "The message history will be cleared";
+"chat.input.placeholder" = "Введите сообщение...";
+"chat.input.defaultPlaceholder" = "Сообщение";
+"chat.status.loadingModel" = "Загрузка модели в память…";
+"chat.status.ragIndexLoading" = "Загрузка индекса RAG…";
+"chat.status.ragSearch" = "Поиск по документам…";
+"chat.clear.title" = "Вы уверены?";
+"chat.clear.button.cancel" = "Отмена";
+"chat.clear.button.clear" = "Очистить";
+"chat.clear.message" = "История сообщений будет очищена";
 "chat.rag.toggle" = "RAG";
 
 
-/* --- Chat list (sidebar) --- */
+/* --- Список чатов (ChatListView.swift) --- */
 
-"chat.list.title" = "Chats";
-"chat.list.duplicate" = "Duplicate chat";
-"chat.list.remove" = "Remove chat";
-"chat.list.startNew" = "Start new chat";
-"chat.list.settings" = "Settings";
-
-
-/* --- Chat settings (dialog) --- */
-
-"chatSettings.section.basic" = "Basic Settings";
-"chatSettings.section.model" = "Model";
-"chatSettings.section.prediction" = "Prediction settings";
-"chatSettings.section.sampling" = "Sampling settings";
-"chatSettings.section.other" = "Other settings";
+"chat.list.title" = "Чаты";
+"chat.list.duplicate" = "Дублировать чат";
+"chat.list.remove" = "Удалить чат";
+"chat.list.startNew" = "Начать новый чат";
+"chat.list.settings" = "Настройки";
 
 
-/* --- Settings header --- */
+/* --- Диалог настроек чата: заголовки секций (ChatSettingsView.swift) --- */
 
-"settingsHeader.cancel" = "Cancel";
-"settingsHeader.title.edit" = "Edit Chat";
-"settingsHeader.title.add" = "Add Chat";
-"settingsHeader.save" = "Save";
-"settingsHeader.add" = "Add";
-"settingsHeader.modelNotSelected.title" = "To create a chat, first select a model.";
-"settingsHeader.modelNotSelected.ok" = "OK";
+"chatSettings.section.basic" = "Основные настройки";
+"chatSettings.section.model" = "Модель";
+"chatSettings.section.prediction" = "Параметры предсказания";
+"chatSettings.section.sampling" = "Параметры сэмплинга";
+"chatSettings.section.other" = "Прочие настройки";
 
 
-/* --- Chat settings tabs --- */
+/* --- Шапка диалога настроек (SettingsHeaderView.swift) --- */
 
-"chatSettings.tab.basic" = "Basic";
-"chatSettings.tab.prompt" = "Prompt";
-"chatSettings.tab.sampling" = "Sampling";
+"settingsHeader.cancel" = "Отмена";
+"settingsHeader.title.edit" = "Редактирование чата";
+"settingsHeader.title.add" = "Новый чат";
+"settingsHeader.save" = "Сохранить";
+"settingsHeader.add" = "Добавить";
+"settingsHeader.modelNotSelected.title" = "Чтобы создать чат, сначала выберите модель.";
+"settingsHeader.modelNotSelected.ok" = "ОК";
+
+
+/* --- Вкладки настроек чата (ChatSettingsTabs.swift) --- */
+
+"chatSettings.tab.basic" = "Основное";
+"chatSettings.tab.prompt" = "Промпт";
+"chatSettings.tab.sampling" = "Сэмплинг";
 "chatSettings.tab.rag" = "RAG";
-"chatSettings.tab.docs" = "Docs";
-"chatSettings.tab.other" = "Other";
+"chatSettings.tab.docs" = "Документы";
+"chatSettings.tab.other" = "Прочее";
 
 
-/* --- Basic settings --- */
+/* --- Вкладка "Основное" (BasicSettingsView.swift) --- */
 
-"basicSettings.title.placeholder" = "Title...";
-"basicSettings.settingsTemplate" = "Settings template:";
+"basicSettings.title.placeholder" = "Название...";
+"basicSettings.settingsTemplate" = "Шаблон настроек:";
 
 
-/* --- Model settings --- */
+/* --- Секция "Модель" (ModelSettingsView.swift, ModelSelector.swift) --- */
 
-"modelSettings.importFromFile" = "Import from file...";
-"modelSettings.downloadModels" = "Download models...";
-"modelSettings.selectModel" = "Select Model...";
-"modelSettings.selectClipModel" = "Select Clip Model...";
-"modelSettings.selectAdapter" = "Select Adapter...";
-"modelSettings.availableModels" = "Available models";
-"modelSettings.availableAdapters" = "Available adapters";
-"modelSettings.scalePlaceholder" = "Scale..";
+"modelSettings.importFromFile" = "Импорт из файла...";
+"modelSettings.downloadModels" = "Скачать модели...";
+"modelSettings.selectModel" = "Выбрать модель...";
+"modelSettings.selectClipModel" = "Выбрать CLIP-модель...";
+"modelSettings.selectAdapter" = "Выбрать адаптер...";
+"modelSettings.availableModels" = "Доступные модели";
+"modelSettings.availableAdapters" = "Доступные адаптеры";
+"modelSettings.scalePlaceholder" = "Масштаб..";
 "modelSettings.clipToggle" = "Clip";
 
 
-/* --- Prediction settings --- */
+/* --- Параметры предсказания (PredictionSettingsView.swift) --- */
 
-"prediction.threads" = "Threads:";
-"prediction.threads.desc" = "Number of CPU threads used for inference. More threads can speed things up, but too many cause overhead. Recommended: the number of performance cores on your device.";
+"prediction.threads" = "Потоки:";
+"prediction.threads.desc" = "Количество потоков CPU, используемых при генерации. Больше потоков — быстрее, но слишком много — замедление из-за накладных расходов. Рекомендуется: число производительных ядер устройства.";
 "prediction.metal" = "Metal";
-"prediction.metal.desc" = "Use GPU acceleration through Apple Metal. Speeds up inference on supported devices. Disable only if you see graphical glitches or crashes.";
+"prediction.metal.desc" = "Использовать ускорение GPU через Apple Metal. Ускоряет генерацию на поддерживаемых устройствах. Отключайте, только если видите артефакты или падения.";
 "prediction.clipMetal" = "ClipM";
-"prediction.clipMetal.desc" = "Use Metal for the CLIP vision encoder. Only affects multimodal models that accept images.";
+"prediction.clipMetal.desc" = "Использовать Metal для CLIP-энкодера изображений. Влияет только на мультимодальные модели, принимающие картинки.";
 "prediction.flashAttn" = "FAttn";
-"prediction.flashAttn.desc" = "Flash Attention — an optimized attention algorithm. Uses less memory and can be faster, especially with long contexts. May not be supported by all models.";
+"prediction.flashAttn.desc" = "Flash Attention — оптимизированный алгоритм внимания. Использует меньше памяти и работает быстрее, особенно на длинных контекстах. Поддерживается не всеми моделями.";
 "prediction.mlock" = "MLock";
-"prediction.mlock.desc" = "Lock the model in RAM so the system cannot swap it to disk. Keeps speed consistent but uses more memory permanently.";
+"prediction.mlock.desc" = "Заблокировать модель в оперативной памяти, чтобы система не выгружала её на диск. Скорость стабильнее, но ОЗУ занята постоянно.";
 "prediction.mmap" = "MMap";
-"prediction.mmap.desc" = "Memory-map the model file instead of loading it fully into RAM. Saves memory and lets you load larger models, but the first run may be slower.";
-"prediction.context" = "Context:";
-"prediction.context.desc" = "How many tokens the model can see at once (dialogue + prompt + answer). Larger contexts let the model remember more but use much more memory.";
-"prediction.batchSize" = "Batch size:";
-"prediction.batchSize.desc" = "How many tokens are processed in one step during prompt evaluation. Larger batches are faster but use more memory. Usually 256–512.";
-"prediction.predictCount" = "Predict count:";
-"prediction.predictCount.desc" = "Maximum number of tokens the model generates in one answer. Set to 0 for no limit (until the context is full).";
-"prediction.placeholder.count" = "count..";
-"prediction.placeholder.size" = "size..";
+"prediction.mmap.desc" = "Отобразить файл модели в память (mmap) вместо полной загрузки в ОЗУ. Экономит память и позволяет запускать крупные модели, но первый запуск может быть медленнее.";
+"prediction.context" = "Контекст:";
+"prediction.context.desc" = "Сколько токенов модель видит одновременно (диалог + промпт + ответ). Больше контекст — больше помнит, но сильно растёт потребление памяти.";
+"prediction.batchSize" = "Размер батча:";
+"prediction.batchSize.desc" = "Сколько токенов обрабатывается за один шаг при разборе промпта. Большой батч — быстрее, но требует больше памяти. Обычно 256–512.";
+"prediction.predictCount" = "Токенов в ответе:";
+"prediction.predictCount.desc" = "Максимум токенов, которые модель сгенерирует в одном ответе. 0 — без ограничения (до заполнения контекста).";
+"prediction.placeholder.count" = "число..";
+"prediction.placeholder.size" = "размер..";
 
 
-/* --- Sampling settings --- */
+/* --- Параметры сэмплинга (SamplingSettingsView.swift) --- */
 
-/* Режим сэмплинга: temperature */
 "sampling.mode.temperature" = "temperature";
-/* Режим сэмплинга: greedy */
 "sampling.mode.greedy" = "greedy";
-/* Режим сэмплинга: mirostat */
 "sampling.mode.mirostat" = "mirostat";
-/* Режим сэмплинга: mirostat_v2 */
 "sampling.mode.mirostat_v2" = "mirostat_v2";
 
-"sampling.mode" = "Sampling:";
-"sampling.mode.desc" = "Sampling strategy. 'temperature' is the classic method with temperature/top_k/top_p. 'greedy' always picks the most likely token. 'mirostat' and 'mirostat_v2' adaptively control perplexity for more coherent text.";
+"sampling.mode" = "Сэмплирование:";
+"sampling.mode.desc" = "Стратегия сэмплинга. «temperature» — классический метод с temperature/top_k/top_p. «greedy» — всегда выбирается самый вероятный токен. «mirostat» и «mirostat_v2» — адаптивно управляют perplexity для более связного текста.";
 
-"sampling.repeatLastN" = "Repeat last N:";
-"sampling.repeatLastN.desc" = "How many recent tokens to look back at when applying the repeat penalty. 0 disables penalty, -1 means the entire context, default is 64.";
+"sampling.repeatLastN" = "Учитывать N:";
+"sampling.repeatLastN.desc" = "Сколько последних токенов учитывать при применении штрафа за повторы. 0 — отключить штраф, -1 — весь контекст, по умолчанию 64.";
 
-"sampling.repeatPenalty" = "Repeat Penalty:";
-"sampling.repeatPenalty.desc" = "Penalty for repeating the same tokens. 1.0 = no penalty, higher values (1.1–1.3) reduce looping, too high values make the text fall apart.";
+"sampling.repeatPenalty" = "Штраф за повторы:";
+"sampling.repeatPenalty.desc" = "Штраф за повторение одних и тех же токенов. 1.0 — без штрафа, больше (1.1–1.3) уменьшает зацикливание, слишком высокие значения разрушают связность текста.";
 
-"sampling.temp" = "Temp:";
-"sampling.temp.desc" = "Temperature controls randomness. Lower = more predictable and deterministic, higher = more creative and diverse. 0 = always the most likely token. Typical range: 0.2–1.5.";
+"sampling.temp" = "Температура:";
+"sampling.temp.desc" = "Температура управляет случайностью. Ниже — предсказуемее, выше — креативнее и разнообразнее. 0 — всегда самый вероятный токен. Обычный диапазон: 0.2–1.5.";
 
 "sampling.topK" = "Top_k:";
-"sampling.topK.desc" = "At each step, only the top K most likely tokens are kept. Lower K = more predictable text, higher K = more variety. 0 disables the filter. Typical value: 40.";
+"sampling.topK.desc" = "На каждом шаге оставляются только K самых вероятных токенов. Меньше K — предсказуемее, больше K — разнообразнее. 0 — отключить фильтр. Обычно 40.";
 
 "sampling.topP" = "Top_p:";
-"sampling.topP.desc" = "Nucleus sampling: only tokens whose cumulative probability is below P are kept. 1.0 disables the filter. Typical range: 0.9–0.95.";
+"sampling.topP.desc" = "Nucleus-сэмплинг: оставляются токены, чья суммарная вероятность не превышает P. 1.0 — отключить фильтр. Обычно 0.9–0.95.";
 
 "sampling.tfsZ" = "Tail Free Z:";
-"sampling.tfsZ.desc" = "Tail-free sampling: cuts off the tail of unlikely tokens based on the change in probability. 1.0 disables it.";
+"sampling.tfsZ.desc" = "Tail-free сэмплинг: отсекает хвост маловероятных токенов по изменению вероятности. 1.0 — отключено.";
 
 "sampling.typicalN" = "Locally Typical N:";
-"sampling.typicalN.desc" = "Locally typical sampling: keeps tokens whose probability is close to the entropy of the distribution. 1.0 disables it.";
+"sampling.typicalN.desc" = "Locally typical сэмплинг: оставляет токены, вероятность которых близка к энтропии распределения. 1.0 — отключено.";
 
 "sampling.mirostatEta" = "Mirostat_eta:";
-"sampling.mirostatEta.desc" = "Mirostat learning rate. Controls how quickly the algorithm adapts. Default 0.1. Lower = smoother adaptation.";
+"sampling.mirostatEta.desc" = "Скорость обучения Mirostat. Управляет тем, как быстро алгоритм адаптируется. По умолчанию 0.1. Меньше — плавнее адаптация.";
 
 "sampling.mirostatTau" = "Mirostat_tau:";
-"sampling.mirostatTau.desc" = "Target perplexity for Mirostat. This is roughly the desired 'surprise level' of the text. Lower = more focused, higher = more diverse. Default 5.0.";
+"sampling.mirostatTau.desc" = "Целевая perplexity для Mirostat. Примерно желаемый «уровень неожиданности» текста. Меньше — собраннее, больше — разнообразнее. По умолчанию 5.0.";
 
-"sampling.grammar" = "Grammar sampling:";
-"sampling.grammar.desc" = "Restrict output to a GBNF grammar. The model can only produce strings matching the grammar. Useful for JSON, code, lists. Select a .gbnf file or leave as default.";
+"sampling.grammar" = "Грамматика:";
+"sampling.grammar.desc" = "Ограничить вывод GBNF-грамматикой. Модель сможет выдавать только строки, соответствующие грамматике. Полезно для JSON, кода, списков. Выберите .gbnf-файл или оставьте значение по умолчанию.";
 
-"sampling.placeholder.count" = "count..";
-"sampling.placeholder.size" = "size..";
-"sampling.placeholder.val" = "val..";
-/* --- Prompt settings (tab "Prompt" in chat dialog) --- */
+"sampling.placeholder.count" = "число..";
+"sampling.placeholder.size" = "размер..";
+"sampling.placeholder.val" = "знач..";
 
-/* Заголовок секции: формат промпта */
-"promptSettings.section.format" = "Prompt Format";
-/* Описание: формат промпта */
-"promptSettings.section.format.desc" = "Template that combines the system prompt, chat history and your message into a single text the model sees. Use {{prompt}} as a placeholder for the user's input. Example for ChatML: <|im_start|>user\\n{{prompt}}<|im_end|>\\n<|im_start|>assistant\\n";
 
-/* Заголовок секции: опции */
-"promptSettings.section.options" = "Options";
+/* --- Параметры промпта (PromptSettingsView.swift) --- */
 
-/* Подпись: обратные промпты */
-"promptSettings.reversePrompts" = "Reverse prompts:";
-/* Описание: обратные промпты */
-"promptSettings.reversePrompts.desc" = "Strings that tell the model to stop generating. When any of these appear in the output, generation halts. Usually a closing tag like <|im_end|> or </s>.";
+"promptSettings.section.format" = "Формат промпта";
+"promptSettings.section.format.desc" = "Шаблон, который объединяет системный промпт, историю чата и ваше сообщение в один текст, который видит модель. Используйте {{prompt}} как плейсхолдер для ввода пользователя. Пример для ChatML: <|im_start|>user\\n{{prompt}}<|im_end|>\\n<|im_start|>assistant\\n";
 
-/* Подпись: пропускаемые токены */
-"promptSettings.skipTokens" = "Skip tokens:";
-/* Описание: пропускаемые токены */
-"promptSettings.skipTokens.desc" = "Tokens that should be silently dropped from the output before showing it to you. Useful for hiding service tokens like <|im_start|>.";
+"promptSettings.section.options" = "Опции";
 
-/* Placeholder для полей промпта */
-"promptSettings.placeholder.prompt" = "prompt..";
+"promptSettings.reversePrompts" = "Стоп-последовательности:";
+"promptSettings.reversePrompts.desc" = "Строки, по появлении которых модель останавливает генерацию. Обычно это закрывающий тег вроде <|im_end|> или </s>.";
 
-/* Подпись: парсить специальные токены */
-"promptSettings.parseSpecial" = "Special";
-/* Описание: парсить специальные токены */
-"promptSettings.parseSpecial.desc" = "Whether special tokens (like <|im_start|>, </s>) in the prompt should be interpreted as control tokens or treated as plain text. Enable for models with a chat template.";
+"promptSettings.skipTokens" = "Пропускать токены:";
+"promptSettings.skipTokens.desc" = "Токены, которые нужно молча удалять из вывода перед показом пользователю. Полезно для скрытия служебных токенов вроде <|im_start|>.";
 
-/* Подпись: добавлять BOS */
+"promptSettings.placeholder.prompt" = "промпт..";
+
+"promptSettings.parseSpecial" = "Спецтокены";
+"promptSettings.parseSpecial.desc" = "Интерпретировать ли специальные токены (<|im_start|>, </s>) как управляющие или как обычный текст. Включайте для моделей с chat-шаблоном.";
+
 "promptSettings.bos" = "BOS";
-/* Описание: добавлять BOS */
-"promptSettings.bos.desc" = "Add the Beginning-Of-Sequence token at the start of the prompt. Most modern chat models handle this automatically — enable only if the model card says so.";
+"promptSettings.bos.desc" = "Добавлять токен начала последовательности (BOS) в начало промпта. Большинство современных чат-моделей делают это сами — включайте только если так написано в описании модели.";
 
-/* Подпись: добавлять EOS */
 "promptSettings.eos" = "EOS";
-/* Описание: добавлять EOS */
-"promptSettings.eos.desc" = "Add the End-Of-Sequence token at the end of the prompt. Rarely needed; usually handled by the chat template.";
+"promptSettings.eos.desc" = "Добавлять токен конца последовательности (EOS) в конец промпта. Нужен редко, обычно обрабатывается chat-шаблоном.";
+
+
+/* --- Прочие настройки (AdditionalSettingsView.swift) --- */
+
+"additional.saveAsTemplate" = "Сохранить как шаблон:";
+"additional.saveAsTemplate.desc" = "Сохранить текущие настройки модели как переиспользуемый шаблон. Шаблоны появятся в списке «Шаблон настроек» на вкладке «Основное» и применяются к новым чатам одним тапом.";
+
+"additional.newTemplatePlaceholder" = "Имя нового шаблона...";
+
+"additional.saveLoadState" = "Сохранять состояние";
+"additional.saveLoadState.desc" = "Автоматически сохранять состояние диалога (KV-кэш) на диск при выходе из чата и восстанавливать при возврате. Ускоряет продолжение длинных чатов, но занимает место на диске.";
+
+"additional.chatStyle" = "Стиль чата:";
+"additional.chatStyle.desc" = "Визуальный стиль сообщений чата. «None» — обычный текст. «DocC» — в стиле документации Apple. «Basic» — простой markdown. «GitHub» — markdown как на GitHub.";
+
+"additional.chatStyle.none" = "Нет";
+"additional.chatStyle.docc" = "DocC";
+"additional.chatStyle.basic" = "Basic";
+"additional.chatStyle.github" = "GitHub";
+
+
+/* --- Настройки RAG (RagSettingsView.swift) --- */
+
+"rag.section.settings" = "Настройки RAG";
+
+"rag.chunkSize" = "Размер чанка:";
+"rag.chunkSize.desc" = "Размер каждого текстового чанка (в токенах) при разбиении документов для индексации. Маленькие чанки — точнее совпадения, но теряется контекст. Большие сохраняют контекст, но находят менее релевантные куски. Обычно: 256–512.";
+
+"rag.chunkOverlap" = "Перекрытие чанков:";
+"rag.chunkOverlap.desc" = "Сколько токенов соседние чанки делят друг с другом. Перекрытие помогает сохранить смысл на границах. Обычно: 20–30% от размера чанка (50–150 при размере 256–512).";
+
+"rag.embeddingModel" = "Модель эмбеддингов:";
+"rag.embeddingModel.desc" = "Нейросеть, которая переводит текстовые чанки в векторы для поиска по сходству. DistilBERT — самый быстрый, MiniLM-варианты — точнее. MultiQA лучше всего работает для вопросов-ответов.";
+
+"rag.similarityMetric" = "Метрика сходства:";
+"rag.similarityMetric.desc" = "Как измеряется сходство между векторами. Скалярное произведение быстрое и хорошо работает с нормализованными эмбеддингами. Косинусное — стандарт для текста. Евклидово измеряет геометрическое расстояние.";
+
+"rag.textSplitter" = "Разбиение текста:";
+"rag.textSplitter.desc" = "Алгоритм разбиения документов на чанки. «recursive» старается сохранять границы абзацев и предложений (рекомендуется). «character» режет строго по количеству символов.";
+
+"rag.maxAnswers" = "Максимум ответов RAG:";
+"rag.maxAnswers.desc" = "Сколько текстовых чанков достаётся из индекса и вставляется в промпт для каждого вопроса. Больше чанков — больше контекста, но и больше токенов и меньше фокуса. Обычно: 3–5.";
+
+"rag.placeholder.size" = "размер..";
+"rag.placeholder.count" = "число..";
+
+"rag.section.debug" = "Отладка RAG";
+"rag.debug.rebuildIndex" = "Перестроить индекс";
+"rag.debug.loadIndex" = "Загрузить индекс";
+"rag.debug.searchAndGenerate" = "Найти и сгенерировать промпт";
+"rag.debug.searchPlaceholder" = "Поисковый запрос";
+"rag.debug.loaded" = "Загружено";
+"rag.debug.sec" = "сек";
+
+
+/* --- Документы RAG (DocsView.swift) --- */
+
+"docs.section.title" = "Документы для RAG";
+"docs.contextMenu.delete" = "Удалить";
+"docs.empty.addFile" = "Добавить файл";
+"docs.import.copying" = "Копирование %@ в документы чата";
+"docs.import.addingToIndex" = "Добавление %@ в индекс сходства чата";
+"docs.import.done" = "Импорт %@ завершён.";
+
+
+/* --- Окно настроек (AppSettingsView.swift) --- */
+
+"appSettings.title" = "Настройки";
+
+
+/* --- Вкладки настроек (AppSettingsTabs.swift) --- */
+
+"appSettings.tab.models" = "Модели";
+"appSettings.tab.download" = "Загрузка";
+"appSettings.tab.info" = "Инфо";
+
+
+/* --- Модели (ModelsView.swift, DownloadModels.swift) --- */
+
+"models.section.local" = "Локальные модели";
+"models.contextMenu.delete" = "Удалить";
+"models.empty.addModel" = "Добавить модель";
+"downloadModels.title" = "Загрузка моделей";
+
+
+/* --- Строка списка загрузки моделей (ModelDownloadItem.swift) --- */
+
+"modelDownloadItem.undefined" = "Без названия";
+"modelDownloadItem.quantization" = "Квантование";
+
+
+/* --- О программе (About.swift) --- */
+
+"about.section.about" = "О программе";
+"about.credits" = "LLMFarm v%@\nАвтор: Артём Савкин\n2024";
+"about.section.help" = "Помощь";
+"about.link.documentation" = "Документация LLM Farm";
+
+
+/* --- Отрисовка сообщений (MessageView.swift) --- */
+
+"message.sender.you" = "Вы";
+"message.hide" = "Скрыть";
+"message.showText" = "Показать текст";
+"message.stats.timeAndSpeed" = "%.2f с, %.2f т/с";
+"message.stats.tokensTimeSpeed" = "%i т, %.2f с, %.2f т/с";
