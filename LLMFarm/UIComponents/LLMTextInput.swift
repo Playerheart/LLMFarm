@@ -16,6 +16,7 @@ public struct MessageInputViewHeightKey: PreferenceKey {
     
     
     /// Writes the received value to the `PreferenceKey`.
+    ///
     public static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
     }
@@ -229,7 +230,7 @@ public struct LLMTextInput: View {
                 .frame( alignment: .leading)
             }
             
-            Toggle("RAG", isOn: $enableRAG)
+            Toggle("chat.rag.toggle", isOn: $enableRAG)
                 .frame( alignment: .leading)
                 .fixedSize()
 #if !os(macOS)
@@ -313,7 +314,10 @@ public struct LLMTextInput: View {
         enableRAG: Binding<Bool>
     ) {
         //        self._chat = chat
-        self.messagePlaceholder = messagePlaceholder ?? "Message"
+        self.messagePlaceholder = messagePlaceholder ?? NSLocalizedString(
+            "chat.input.defaultPlaceholder",
+            comment: "Fallback-плейсхолдер в поле ввода, если родитель не передал свой"
+        )
         self.showAttachmentBtn = show_attachment_btn
         self.focusedField = focusedField
         self._autoScroll = auto_scroll
