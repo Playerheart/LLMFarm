@@ -135,3 +135,24 @@
 
 /* Кнопка "OK" в алерте о невыбранной модели */
 "settingsHeader.modelNotSelected.ok" = "OK";
+
+
+/* --- Chat settings tabs --- */
+
+/* Вкладка: основные настройки чата */
+"chatSettings.tab.basic" = "Basic";
+
+/* Вкладка: настройки промпта */
+"chatSettings.tab.prompt" = "Prompt";
+
+/* Вкладка: параметры сэмплинга */
+"chatSettings.tab.sampling" = "Sampling";
+
+/* Вкладка: RAG */
+"chatSettings.tab.rag" = "RAG";
+
+/* Вкладка: документы RAG */
+"chatSettings.tab.docs" = "Docs";
+
+/* Вкладка: прочие настройки */
+"chatSettings.tab.other" = "Other";
