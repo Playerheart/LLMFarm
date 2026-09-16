@@ -42,3 +42,30 @@
 
 /* Сообщение об ошибке: файл повреждён. %lld — размер в байтах, %@ — первые байты ответа сервера */
 "download.error.corrupted" = "File is corrupted (size %lld B). Server response: %@";
+
+
+/* --- Chat --- */
+
+/* Placeholder в поле ввода сообщения */
+"chat.input.placeholder" = "Type your message...";
+
+/* Статус: модель загружается в память */
+"chat.status.loadingModel" = "Loading model into memory…";
+
+/* Статус: загружается индекс RAG */
+"chat.status.ragIndexLoading" = "Loading RAG index…";
+
+/* Статус: поиск по документам RAG */
+"chat.status.ragSearch" = "Searching documents…";
+
+/* Заголовок алерта при очистке истории чата */
+"chat.clear.title" = "Are you sure?";
+
+/* Кнопка "Отмена" в алерте очистки */
+"chat.clear.button.cancel" = "Cancel";
+
+/* Кнопка "Очистить" в алерте очистки */
+"chat.clear.button.clear" = "Clear";
+
+/* Текст алерта: объяснение, что история будет очищена */
+"chat.clear.message" = "The message history will be cleared";
