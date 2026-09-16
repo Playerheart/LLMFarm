@@ -277,7 +277,7 @@
 /* --- О программе (About.swift) --- */
 
 "about.section.about" = "О программе";
-"about.credits" = "LLMFarm v%@\nАвтор: Артём Савкин\n2024";
+"about.credits" = "LLMFarm v%@\nАвтор: Артём Савкин\nПродолжил работу: Ильнар Набиуллин\n2026";
 "about.section.help" = "Помощь";
 "about.link.documentation" = "Документация LLM Farm";
 
