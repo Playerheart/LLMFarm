@@ -56,8 +56,8 @@ struct ChatSettingsView: View {
     //    @State private var loras_previews = []
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     @State private var lora_file_url: URL = URL(filePath: "/")
-    @State private var lora_file_path: String = "Add LoRA adapter"
-    @State private var lora_title: String = ""
+    @State private var lora_file_path: String = "Add LoRA adapter var"
+    @State private var save lora_title: String =_as_template_name:String ""
     @State private var lora_file_scale: Float = 1.0
     @State private var isLoraImporting: Bool = false
     @State private var has_lora: Bool = false
@@ -97,7 +97,7 @@ struct ChatSettingsView: View {
     @State private var grammars_previews = get_grammars_list() ?? []
     
     @State private var save_load_state: Bool = true
-    @State private var save_as_template_name:String = "My Template"
+    @State private = "My Template"
     @State private var chat_style:String = "DocC"
     @State private var chat_styles = ["None", "DocC", "Basic", "GitHub"]
     
@@ -468,7 +468,7 @@ struct ChatSettingsView: View {
                             ScrollView{
                                 GroupBox(label:
                                             //                                Label("Basic Settings", systemImage: "building.columns")
-                                         Text("Basic Settings")
+                                         Text("chatSettings.section.basic")
                                 ) {
                                     BasicSettingsView(chat_title: $chat_title,
                                                       model_icon: $chat_icon,
@@ -484,7 +484,7 @@ struct ChatSettingsView: View {
                                                       apply_setting_template: apply_setting_template)
                                 }
                                 GroupBox(label:
-                                            Text("Model")
+                                            Text("chatSettings.section.model")
                                 ) {
                                     ModelSettingsView(model_file_url: $model_file_url,
                                                       model_file_path: $model_file_path,
@@ -505,7 +505,7 @@ struct ChatSettingsView: View {
                                                       has_clip: $has_clip)
                                 }
                                 GroupBox(label:
-                                            Text("Prediction settings")
+                                            Text("chatSettings.section.prediction")
                                 ) {
                                     PredictionSettingsView(model_context: $model_context,
                                                            model_n_batch: $model_n_batch,
@@ -532,7 +532,7 @@ struct ChatSettingsView: View {
                                                model_inference: $model_inference)
                         case 2:
                             GroupBox(label:
-                                        Text("Sampling settings")
+                                        Text("chatSettings.section.sampling")
                             ) {
                                 SamplingSettingsView(model_sampling: $model_sampling,
                                                      model_samplings: $model_samplings,
@@ -568,7 +568,7 @@ struct ChatSettingsView: View {
                                     chunkMethod: $chunkMethod)
                         default:
                             GroupBox(label:
-                                        Text("Other settings")
+                                        Text("chatSettings.section.other")
                             ) {
                                 AdditionalSettingsView(save_load_state: $save_load_state,
                                                        save_as_template_name: $save_as_template_name,
@@ -602,7 +602,7 @@ extension UIApplication {
     var keyWindow: UIWindow? {
         // Get connected scenes
         return self.connectedScenes
-        // Keep only active scenes, onscreen and visible to the user
+        // Keep only active scenes, that are currently onscreen and visible to the user
             .filter { $0.activationState == .foregroundActive }
         // Keep only the first `UIWindowScene`
             .first(where: { $0 is UIWindowScene })
