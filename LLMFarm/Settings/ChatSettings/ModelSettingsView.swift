@@ -39,10 +39,10 @@ struct ModelSettingsView: View {
                             model_title:$model_title,
                             toggleSettings:$toggleSettings,
                             edit_chat_dialog:$edit_chat_dialog,
-                            import_lable:"Import from file...",
-                            download_lable:"Download models...",
-                            selection_lable:"Select Model...",
-                            avalible_lable:"Avalible models")
+                            import_lable: NSLocalizedString("modelSettings.importFromFile", comment: "Кнопка: импорт модели из файла"),
+                            download_lable: NSLocalizedString("modelSettings.downloadModels", comment: "Кнопка: открыть экран загрузки моделей"),
+                            selection_lable: NSLocalizedString("modelSettings.selectModel", comment: "Надпись: выбрать модель"),
+                            avalible_lable: NSLocalizedString("modelSettings.availableModels", comment: "Надпись: доступные модели"))
             .padding([/*.trailing, .leading,*/ .top])
             .padding(.horizontal, 5)
 #if os(iOS)
@@ -55,10 +55,10 @@ struct ModelSettingsView: View {
                                 model_title:$clip_model_title,
                                 toggleSettings:$toggleSettings,
                                 edit_chat_dialog:$edit_chat_dialog,
-                                import_lable:"Import from file...",
-                                download_lable:"Download models...",
-                                selection_lable:"Select Clip Model...",
-                                avalible_lable:"Avalible models")
+                                import_lable: NSLocalizedString("modelSettings.importFromFile", comment: "Кнопка: импорт модели из файла"),
+                                download_lable: NSLocalizedString("modelSettings.downloadModels", comment: "Кнопка: открыть экран загрузки моделей"),
+                                selection_lable: NSLocalizedString("modelSettings.selectClipModel", comment: "Надпись: выбрать CLIP-модель"),
+                                avalible_lable: NSLocalizedString("modelSettings.availableModels", comment: "Надпись: доступные модели"))
                 .padding([/*.trailing, .leading,*/ .top])
                 .padding(.horizontal, 5)
 #if os(iOS)
@@ -73,10 +73,10 @@ struct ModelSettingsView: View {
                                     model_title:$lora_title,
                                     toggleSettings:$toggleSettings,
                                     edit_chat_dialog:$edit_chat_dialog,
-                                    import_lable:"Import from file...",
-                                    download_lable:"Download models...",
-                                    selection_lable:"Select Adapter...",
-                                    avalible_lable:"Avalible adapters")
+                                    import_lable: NSLocalizedString("modelSettings.importFromFile", comment: "Кнопка: импорт модели из файла"),
+                                    download_lable: NSLocalizedString("modelSettings.downloadModels", comment: "Кнопка: открыть экран загрузки моделей"),
+                                    selection_lable: NSLocalizedString("modelSettings.selectAdapter", comment: "Надпись: выбрать LoRA-адаптер"),
+                                    avalible_lable: NSLocalizedString("modelSettings.availableAdapters", comment: "Надпись: доступные LoRA-адаптеры"))
                     .padding([/*.trailing, .leading,*/ .top])
                     .padding(.leading, 5)
 #if os(iOS)
@@ -84,7 +84,7 @@ struct ModelSettingsView: View {
 #endif
                     Spacer()
                     
-                    TextField("Scale..", value: $lora_file_scale, format:.number)
+                    TextField("modelSettings.scalePlaceholder", value: $lora_file_scale, format:.number)
                         .frame( maxWidth: 50, alignment: .leading)
                         .multilineTextAlignment(.trailing)
                         .textFieldStyle(.plain)
@@ -96,7 +96,7 @@ struct ModelSettingsView: View {
                 }
             }
             HStack {
-                Toggle("Clip", isOn: $has_clip)
+                Toggle("modelSettings.clipToggle", isOn: $has_clip)
                     .frame(maxWidth: 120, alignment: .trailing)
 //                Toggle("LoRa", isOn: $has_lora)
 //                    .frame(maxWidth: 120, alignment: .trailing)
