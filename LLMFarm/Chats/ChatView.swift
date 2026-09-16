@@ -38,7 +38,7 @@ struct ChatView: View {
     @FocusState
     private var isInputFieldFocused: Bool
     
-    // MARK: - Status overlay helpers
+    // MARK: - Статус загрузки модели (сверху)
     
     private var isWorking: Bool {
         switch aiChatModel.state {
@@ -117,6 +117,17 @@ struct ChatView: View {
         }
     }
     
+    // MARK: - Сообщения, которые нужно показать
+    /// Пока модель думает и текст ещё пустой — скрываем LLM-пузырь, чтобы не мигало пустое сообщение
+    private var visibleMessages: [Message] {
+        aiChatModel.messages.filter { msg in
+            if aiChatModel.isThinking && msg.state == .predicting && msg.text.isEmpty {
+                return false
+            }
+            return true
+        }
+    }
+    
     // MARK: - Scroll helpers
     
     func scrollToBottom(with_animation: Bool = false) {
@@ -170,6 +181,21 @@ struct ChatView: View {
         .buttonStyle(BorderlessButtonStyle())
     }
     
+    // MARK: - Спиннер "модель думает" — размером с заглавную букву
+    private var thinkingIndicator: some View {
+        HStack(spacing: 6) {
+            ProgressView()
+                .progressViewStyle(.circular)
+                .scaleEffect(0.55)
+                .frame(width: 14, height: 14)
+                .tint(.secondary)
+            Spacer()
+        }
+        .padding(.leading, 20)
+        .padding(.vertical, 4)
+        .id("thinkingIndicator")
+    }
+    
     // MARK: - Body
     
     var body: some View {
@@ -179,11 +205,18 @@ struct ChatView: View {
             ScrollViewReader { scrollView in
                 VStack {
                     List {
-                        ForEach(aiChatModel.messages, id: \.id) { message in
+                        ForEach(visibleMessages, id: \.id) { message in
                             MessageView(message: message, chatStyle: $chatStyle, status: nil).id(message.id)
                                 .textSelection(.enabled)
                         }
                         .listRowSeparator(.hidden)
+                        
+                        // Спиннер — показывается, пока модель "думает" (внутри <think>)
+                        if aiChatModel.isThinking {
+                            thinkingIndicator
+                                .listRowSeparator(.hidden)
+                        }
+                        
                         Text("").id("latest")
                     }
                     .textSelection(.enabled)
