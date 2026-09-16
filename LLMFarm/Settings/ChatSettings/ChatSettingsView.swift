@@ -56,8 +56,8 @@ struct ChatSettingsView: View {
     //    @State private var loras_previews = []
     @State private var lora_adapters: [Dictionary<String, Any>] = []
     @State private var lora_file_url: URL = URL(filePath: "/")
-    @State private var lora_file_path: String = "Add LoRA adapter var"
-    @State private var save lora_title: String =_as_template_name:String ""
+    @State private var lora_file_path: String = "Add LoRA adapter"
+    @State private var lora_title: String = ""
     @State private var lora_file_scale: Float = 1.0
     @State private var isLoraImporting: Bool = false
     @State private var has_lora: Bool = false
@@ -97,7 +97,7 @@ struct ChatSettingsView: View {
     @State private var grammars_previews = get_grammars_list() ?? []
     
     @State private var save_load_state: Bool = true
-    @State private = "My Template"
+    @State private var save_as_template_name:String = "My Template"
     @State private var chat_style:String = "DocC"
     @State private var chat_styles = ["None", "DocC", "Basic", "GitHub"]
     
