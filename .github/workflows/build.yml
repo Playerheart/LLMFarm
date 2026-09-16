@@ -158,6 +158,48 @@ jobs:
         echo "CFBundleShortVersion: $(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$PLIST" 2>/dev/null)"
         echo "CFBundleVersion:      $(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$PLIST" 2>/dev/null)"
 
+    - name: Inject localizations into .app
+      run: |
+        APP_PATH=$(find ./build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 | head -1)
+        if [ -z "$APP_PATH" ]; then
+          echo "ОШИБКА: .app не найден"
+          exit 1
+        fi
+        echo "=== Инжектим .lproj в $APP_PATH ==="
+
+        SRC="LLMFarm/Localization"
+        if [ ! -d "$SRC" ]; then
+          echo "ОШИБКА: папка $SRC не найдена в репозитории"
+          exit 1
+        fi
+
+        for L in en ru; do
+          if [ -d "$SRC/$L.lproj" ]; then
+            mkdir -p "$APP_PATH/$L.lproj"
+            cp -f "$SRC/$L.lproj/"*.strings "$APP_PATH/$L.lproj/" 2>/dev/null || true
+            echo "  → $L.lproj: $(ls -1 "$APP_PATH/$L.lproj" | tr '\n' ' ')"
+          fi
+        done
+
+        PLIST="$APP_PATH/Info.plist"
+
+        # CFBundleDevelopmentRegion — язык по умолчанию (English)
+        /usr/libexec/PlistBuddy -c "Set :CFBundleDevelopmentRegion en" "$PLIST" 2>/dev/null \
+          || /usr/libexec/PlistBuddy -c "Add :CFBundleDevelopmentRegion string en" "$PLIST"
+
+        # CFBundleLocalizations — список поддерживаемых языков
+        /usr/libexec/PlistBuddy -c "Delete :CFBundleLocalizations" "$PLIST" 2>/dev/null || true
+        /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations array" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations:0 string en" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations:1 string ru" "$PLIST"
+
+        echo "=== Проверка ==="
+        /usr/libexec/PlistBuddy -c "Print :CFBundleDevelopmentRegion" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Print :CFBundleLocalizations" "$PLIST"
+
+        echo "=== Содержимое .lproj в бандле ==="
+        ls -la "$APP_PATH" | grep lproj || echo "(нет .lproj — что-то не так)"
+
     - name: Package into IPA
       run: |
         mkdir -p Payload
