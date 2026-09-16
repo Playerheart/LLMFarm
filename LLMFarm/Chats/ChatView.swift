@@ -11,7 +11,10 @@ struct ChatView: View {
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
     
-    @State var placeholderString: String = "Type your message..."
+    @State var placeholderString: String = NSLocalizedString(
+        "chat.input.placeholder",
+        comment: "Placeholder в поле ввода сообщения"
+    )
     @State private var inputText: String = "Type your message..."
     
     @Binding var modelName: String
@@ -52,11 +55,20 @@ struct ChatView: View {
     private var statusText: String {
         switch aiChatModel.state {
         case .loading:
-            return "Loading model into memory…"
+            return NSLocalizedString(
+                "chat.status.loadingModel",
+                comment: "Статус: модель загружается в память"
+            )
         case .ragIndexLoading:
-            return "Loading RAG index…"
+            return NSLocalizedString(
+                "chat.status.ragIndexLoading",
+                comment: "Статус: загружается индекс RAG"
+            )
         case .ragSearch:
-            return "Searching documents…"
+            return NSLocalizedString(
+                "chat.status.ragSearch",
+                comment: "Статус: поиск по документам RAG"
+            )
         default:
             return ""
         }
@@ -258,9 +270,9 @@ struct ChatView: View {
                 } label: {
                     Image(systemName: clearChatButtonIcon)
                 }
-                .alert("Are you sure?", isPresented: $clearChatAlert, actions: {
-                    Button("Cancel", role: .cancel, action: {})
-                    Button("Clear", role: .destructive, action: {
+                .alert("chat.clear.title", isPresented: $clearChatAlert, actions: {
+                    Button("chat.clear.button.cancel", role: .cancel, action: {})
+                    Button("chat.clear.button.clear", role: .destructive, action: {
                         aiChatModel.messages = []
                         save_chat_history(aiChatModel.messages, aiChatModel.chat_name + ".json")
                         clearChatButtonIcon = "checkmark"
@@ -268,7 +280,7 @@ struct ChatView: View {
                         run_after_delay(delay: 1200, function: { clearChatButtonIcon = "eraser.line.dashed.fill" })
                     })
                 }, message: {
-                    Text("The message history will be cleared")
+                    Text("chat.clear.message")
                 })
                 
                 Button {
