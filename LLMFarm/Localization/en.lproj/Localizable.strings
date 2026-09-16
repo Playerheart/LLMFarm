@@ -111,3 +111,27 @@
 
 /* Заголовок секции: прочие настройки */
 "chatSettings.section.other" = "Other settings";
+
+
+/* --- Settings header (title bar of chat settings dialog) --- */
+
+/* Кнопка "Отмена" в шапке диалога настроек */
+"settingsHeader.cancel" = "Cancel";
+
+/* Заголовок диалога: редактирование чата */
+"settingsHeader.title.edit" = "Edit Chat";
+
+/* Заголовок диалога: создание чата */
+"settingsHeader.title.add" = "Add Chat";
+
+/* Кнопка "Сохранить" в шапке диалога */
+"settingsHeader.save" = "Save";
+
+/* Кнопка "Добавить" в шапке диалога (при создании чата) */
+"settingsHeader.add" = "Add";
+
+/* Заголовок алерта: не выбрана модель */
+"settingsHeader.modelNotSelected.title" = "To create a chat, first select a model.";
+
+/* Кнопка "OK" в алерте о невыбранной модели */
+"settingsHeader.modelNotSelected.ok" = "OK";
