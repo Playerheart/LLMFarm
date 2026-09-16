@@ -4,155 +4,161 @@
 
 /* --- Download button --- */
 
-/* Заглушка для неизвестного статуса кнопки загрузки */
 "download.status.unknown" = "Unknown status";
-
-/* Заголовок алерта: предупреждение о том, что Qwen3 пока экспериментальный */
 "download.qwen3.title" = "Qwen3 — experimental support";
-
-/* Текст алерта: объяснение, что модель может не работать */
 "download.qwen3.message" = "This model may not work in this app yet. We are working on it! Thank you.\n\nContinue downloading?";
-
-/* Кнопка "Нет" в алерте Qwen3 */
 "download.qwen3.button.no" = "No";
-
-/* Кнопка "Да, продолжить" в алерте Qwen3 */
 "download.qwen3.button.continue" = "Yes, continue";
-
-/* Заголовок алерта: предупреждение не выходить из приложения */
 "download.exit.title" = "Don't leave the app";
-
-/* Текст алерта: объяснение, что при выходе загрузка прервётся */
 "download.exit.message" = "While the model is downloading, do not leave or minimize the app. If you exit, the download will be interrupted and will start over.";
-
-/* Кнопка "Отмена" в алерте про выход */
 "download.exit.button.cancel" = "Cancel";
-
-/* Кнопка "Начать загрузку" в алерте про выход */
 "download.exit.button.start" = "Start download";
-
-/* Заголовок алерта при ошибке загрузки */
 "download.error.title" = "Download error";
-
-/* Кнопка "OK" в алерте ошибки */
 "download.error.button.ok" = "OK";
-
-/* Сообщение об ошибке: некорректный URL модели. %@ — это URL */
 "download.error.invalidURL" = "Invalid URL: %@";
-
-/* Сообщение об ошибке: файл повреждён. %lld — размер в байтах, %@ — первые байты ответа сервера */
 "download.error.corrupted" = "File is corrupted (size %lld B). Server response: %@";
 
 
 /* --- Chat --- */
 
-/* Placeholder в поле ввода сообщения */
 "chat.input.placeholder" = "Type your message...";
-
-/* Fallback-плейсхолдер в поле ввода, если родитель не передал свой */
 "chat.input.defaultPlaceholder" = "Message";
-
-/* Статус: модель загружается в память */
 "chat.status.loadingModel" = "Loading model into memory…";
-
-/* Статус: загружается индекс RAG */
 "chat.status.ragIndexLoading" = "Loading RAG index…";
-
-/* Статус: поиск по документам RAG */
 "chat.status.ragSearch" = "Searching documents…";
-
-/* Заголовок алерта при очистке истории чата */
 "chat.clear.title" = "Are you sure?";
-
-/* Кнопка "Отмена" в алерте очистки */
 "chat.clear.button.cancel" = "Cancel";
-
-/* Кнопка "Очистить" в алерте очистки */
 "chat.clear.button.clear" = "Clear";
-
-/* Текст алерта: объяснение, что история будет очищена */
 "chat.clear.message" = "The message history will be cleared";
-
-/* Переключатель RAG в панели вложений */
 "chat.rag.toggle" = "RAG";
 
 
 /* --- Chat list (sidebar) --- */
 
-/* Заголовок списка чатов */
 "chat.list.title" = "Chats";
-
-/* Контекстное меню: дублировать чат */
 "chat.list.duplicate" = "Duplicate chat";
-
-/* Контекстное меню: удалить чат */
 "chat.list.remove" = "Remove chat";
-
-/* Пустое состояние: начать новый чат */
 "chat.list.startNew" = "Start new chat";
-
-/* Пункт меню: открыть настройки */
 "chat.list.settings" = "Settings";
 
 
 /* --- Chat settings (dialog) --- */
 
-/* Заголовок секции: основные настройки */
 "chatSettings.section.basic" = "Basic Settings";
-
-/* Заголовок секции: модель */
 "chatSettings.section.model" = "Model";
-
-/* Заголовок секции: параметры предсказания */
 "chatSettings.section.prediction" = "Prediction settings";
-
-/* Заголовок секции: параметры сэмплинга */
 "chatSettings.section.sampling" = "Sampling settings";
-
-/* Заголовок секции: прочие настройки */
 "chatSettings.section.other" = "Other settings";
 
 
-/* --- Settings header (title bar of chat settings dialog) --- */
+/* --- Settings header --- */
 
-/* Кнопка "Отмена" в шапке диалога настроек */
 "settingsHeader.cancel" = "Cancel";
-
-/* Заголовок диалога: редактирование чата */
 "settingsHeader.title.edit" = "Edit Chat";
-
-/* Заголовок диалога: создание чата */
 "settingsHeader.title.add" = "Add Chat";
-
-/* Кнопка "Сохранить" в шапке диалога */
 "settingsHeader.save" = "Save";
-
-/* Кнопка "Добавить" в шапке диалога (при создании чата) */
 "settingsHeader.add" = "Add";
-
-/* Заголовок алерта: не выбрана модель */
 "settingsHeader.modelNotSelected.title" = "To create a chat, first select a model.";
-
-/* Кнопка "OK" в алерте о невыбранной модели */
 "settingsHeader.modelNotSelected.ok" = "OK";
 
 
 /* --- Chat settings tabs --- */
 
-/* Вкладка: основные настройки чата */
 "chatSettings.tab.basic" = "Basic";
-
-/* Вкладка: настройки промпта */
 "chatSettings.tab.prompt" = "Prompt";
-
-/* Вкладка: параметры сэмплинга */
 "chatSettings.tab.sampling" = "Sampling";
-
-/* Вкладка: RAG */
 "chatSettings.tab.rag" = "RAG";
-
-/* Вкладка: документы RAG */
 "chatSettings.tab.docs" = "Docs";
-
-/* Вкладка: прочие настройки */
 "chatSettings.tab.other" = "Other";
+
+
+/* --- Basic settings --- */
+
+"basicSettings.title.placeholder" = "Title...";
+"basicSettings.settingsTemplate" = "Settings template:";
+
+
+/* --- Model settings --- */
+
+"modelSettings.importFromFile" = "Import from file...";
+"modelSettings.downloadModels" = "Download models...";
+"modelSettings.selectModel" = "Select Model...";
+"modelSettings.selectClipModel" = "Select Clip Model...";
+"modelSettings.selectAdapter" = "Select Adapter...";
+"modelSettings.availableModels" = "Available models";
+"modelSettings.availableAdapters" = "Available adapters";
+"modelSettings.scalePlaceholder" = "Scale..";
+"modelSettings.clipToggle" = "Clip";
+
+
+/* --- Prediction settings --- */
+
+"prediction.threads" = "Threads:";
+"prediction.threads.desc" = "Number of CPU threads used for inference. More threads can speed things up, but too many cause overhead. Recommended: the number of performance cores on your device.";
+"prediction.metal" = "Metal";
+"prediction.metal.desc" = "Use GPU acceleration through Apple Metal. Speeds up inference on supported devices. Disable only if you see graphical glitches or crashes.";
+"prediction.clipMetal" = "ClipM";
+"prediction.clipMetal.desc" = "Use Metal for the CLIP vision encoder. Only affects multimodal models that accept images.";
+"prediction.flashAttn" = "FAttn";
+"prediction.flashAttn.desc" = "Flash Attention — an optimized attention algorithm. Uses less memory and can be faster, especially with long contexts. May not be supported by all models.";
+"prediction.mlock" = "MLock";
+"prediction.mlock.desc" = "Lock the model in RAM so the system cannot swap it to disk. Keeps speed consistent but uses more memory permanently.";
+"prediction.mmap" = "MMap";
+"prediction.mmap.desc" = "Memory-map the model file instead of loading it fully into RAM. Saves memory and lets you load larger models, but the first run may be slower.";
+"prediction.context" = "Context:";
+"prediction.context.desc" = "How many tokens the model can see at once (dialogue + prompt + answer). Larger contexts let the model remember more but use much more memory.";
+"prediction.batchSize" = "Batch size:";
+"prediction.batchSize.desc" = "How many tokens are processed in one step during prompt evaluation. Larger batches are faster but use more memory. Usually 256–512.";
+"prediction.predictCount" = "Predict count:";
+"prediction.predictCount.desc" = "Maximum number of tokens the model generates in one answer. Set to 0 for no limit (until the context is full).";
+"prediction.placeholder.count" = "count..";
+"prediction.placeholder.size" = "size..";
+
+
+/* --- Sampling settings --- */
+
+/* Режим сэмплинга: temperature */
+"sampling.mode.temperature" = "temperature";
+/* Режим сэмплинга: greedy */
+"sampling.mode.greedy" = "greedy";
+/* Режим сэмплинга: mirostat */
+"sampling.mode.mirostat" = "mirostat";
+/* Режим сэмплинга: mirostat_v2 */
+"sampling.mode.mirostat_v2" = "mirostat_v2";
+
+"sampling.mode" = "Sampling:";
+"sampling.mode.desc" = "Sampling strategy. 'temperature' is the classic method with temperature/top_k/top_p. 'greedy' always picks the most likely token. 'mirostat' and 'mirostat_v2' adaptively control perplexity for more coherent text.";
+
+"sampling.repeatLastN" = "Repeat last N:";
+"sampling.repeatLastN.desc" = "How many recent tokens to look back at when applying the repeat penalty. 0 disables penalty, -1 means the entire context, default is 64.";
+
+"sampling.repeatPenalty" = "Repeat Penalty:";
+"sampling.repeatPenalty.desc" = "Penalty for repeating the same tokens. 1.0 = no penalty, higher values (1.1–1.3) reduce looping, too high values make the text fall apart.";
+
+"sampling.temp" = "Temp:";
+"sampling.temp.desc" = "Temperature controls randomness. Lower = more predictable and deterministic, higher = more creative and diverse. 0 = always the most likely token. Typical range: 0.2–1.5.";
+
+"sampling.topK" = "Top_k:";
+"sampling.topK.desc" = "At each step, only the top K most likely tokens are kept. Lower K = more predictable text, higher K = more variety. 0 disables the filter. Typical value: 40.";
+
+"sampling.topP" = "Top_p:";
+"sampling.topP.desc" = "Nucleus sampling: only tokens whose cumulative probability is below P are kept. 1.0 disables the filter. Typical range: 0.9–0.95.";
+
+"sampling.tfsZ" = "Tail Free Z:";
+"sampling.tfsZ.desc" = "Tail-free sampling: cuts off the tail of unlikely tokens based on the change in probability. 1.0 disables it.";
+
+"sampling.typicalN" = "Locally Typical N:";
+"sampling.typicalN.desc" = "Locally typical sampling: keeps tokens whose probability is close to the entropy of the distribution. 1.0 disables it.";
+
+"sampling.mirostatEta" = "Mirostat_eta:";
+"sampling.mirostatEta.desc" = "Mirostat learning rate. Controls how quickly the algorithm adapts. Default 0.1. Lower = smoother adaptation.";
+
+"sampling.mirostatTau" = "Mirostat_tau:";
+"sampling.mirostatTau.desc" = "Target perplexity for Mirostat. This is roughly the desired 'surprise level' of the text. Lower = more focused, higher = more diverse. Default 5.0.";
+
+"sampling.grammar" = "Grammar sampling:";
+"sampling.grammar.desc" = "Restrict output to a GBNF grammar. The model can only produce strings matching the grammar. Useful for JSON, code, lists. Select a .gbnf file or leave as default.";
+
+"sampling.placeholder.count" = "count..";
+"sampling.placeholder.size" = "size..";
+"sampling.placeholder.val" = "val..";
