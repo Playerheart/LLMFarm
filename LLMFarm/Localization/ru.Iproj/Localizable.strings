@@ -1,8 +1,8 @@
 /* =========================================================
-   LLMFarm — Русские строки
+   LLMFarm (playerheart fork) — Русские строки
    ========================================================= */
 
-/* --- Кнопка загрузки --- */
+/* --- Кнопка загрузки (DownloadButton.swift) --- */
 
 "download.status.unknown" = "Неизвестный статус";
 "download.qwen3.title" = "Qwen3 — экспериментальная поддержка";
@@ -19,7 +19,7 @@
 "download.error.corrupted" = "Файл повреждён (размер %lld Б). Ответ сервера: %@";
 
 
-/* --- Чат --- */
+/* --- Чат (ChatView.swift, LLMTextInput.swift) --- */
 
 "chat.input.placeholder" = "Введите сообщение...";
 "chat.input.defaultPlaceholder" = "Сообщение";
@@ -33,7 +33,7 @@
 "chat.rag.toggle" = "RAG";
 
 
-/* --- Список чатов --- */
+/* --- Список чатов (ChatListView.swift) --- */
 
 "chat.list.title" = "Чаты";
 "chat.list.duplicate" = "Дублировать чат";
@@ -42,7 +42,7 @@
 "chat.list.settings" = "Настройки";
 
 
-/* --- Настройки чата (диалог) --- */
+/* --- Диалог настроек чата: заголовки секций (ChatSettingsView.swift) --- */
 
 "chatSettings.section.basic" = "Основные настройки";
 "chatSettings.section.model" = "Модель";
@@ -51,7 +51,7 @@
 "chatSettings.section.other" = "Прочие настройки";
 
 
-/* --- Шапка диалога настроек --- */
+/* --- Шапка диалога настроек (SettingsHeaderView.swift) --- */
 
 "settingsHeader.cancel" = "Отмена";
 "settingsHeader.title.edit" = "Редактирование чата";
@@ -62,7 +62,7 @@
 "settingsHeader.modelNotSelected.ok" = "ОК";
 
 
-/* --- Вкладки настроек чата --- */
+/* --- Вкладки настроек чата (ChatSettingsTabs.swift) --- */
 
 "chatSettings.tab.basic" = "Основное";
 "chatSettings.tab.prompt" = "Промпт";
@@ -72,13 +72,13 @@
 "chatSettings.tab.other" = "Прочее";
 
 
-/* --- Вкладка "Основное" --- */
+/* --- Вкладка "Основное" (BasicSettingsView.swift) --- */
 
 "basicSettings.title.placeholder" = "Название...";
 "basicSettings.settingsTemplate" = "Шаблон настроек:";
 
 
-/* --- Секция "Модель" --- */
+/* --- Секция "Модель" (ModelSettingsView.swift, ModelSelector.swift) --- */
 
 "modelSettings.importFromFile" = "Импорт из файла...";
 "modelSettings.downloadModels" = "Скачать модели...";
@@ -91,7 +91,7 @@
 "modelSettings.clipToggle" = "Clip";
 
 
-/* --- Параметры предсказания --- */
+/* --- Параметры предсказания (PredictionSettingsView.swift) --- */
 
 "prediction.threads" = "Потоки:";
 "prediction.threads.desc" = "Количество потоков CPU, используемых при генерации. Больше потоков — быстрее, но слишком много — замедление из-за накладных расходов. Рекомендуется: число производительных ядер устройства.";
@@ -115,15 +115,11 @@
 "prediction.placeholder.size" = "размер..";
 
 
-/* --- Параметры сэмплинга --- */
+/* --- Параметры сэмплинга (SamplingSettingsView.swift) --- */
 
-/* Режим сэмплинга: temperature */
 "sampling.mode.temperature" = "temperature";
-/* Режим сэмплинга: greedy */
 "sampling.mode.greedy" = "greedy";
-/* Режим сэмплинга: mirostat */
 "sampling.mode.mirostat" = "mirostat";
-/* Режим сэмплинга: mirostat_v2 */
 "sampling.mode.mirostat_v2" = "mirostat_v2";
 
 "sampling.mode" = "Сэмплирование:";
@@ -162,40 +158,134 @@
 "sampling.placeholder.count" = "число..";
 "sampling.placeholder.size" = "размер..";
 "sampling.placeholder.val" = "знач..";
-/* --- Параметры промпта --- */
 
-/* Заголовок секции: формат промпта */
+
+/* --- Параметры промпта (PromptSettingsView.swift) --- */
+
 "promptSettings.section.format" = "Формат промпта";
-/* Описание: формат промпта */
 "promptSettings.section.format.desc" = "Шаблон, который объединяет системный промпт, историю чата и ваше сообщение в один текст, который видит модель. Используйте {{prompt}} как плейсхолдер для ввода пользователя. Пример для ChatML: <|im_start|>user\\n{{prompt}}<|im_end|>\\n<|im_start|>assistant\\n";
 
-/* Заголовок секции: опции */
 "promptSettings.section.options" = "Опции";
 
-/* Подпись: обратные промпты */
 "promptSettings.reversePrompts" = "Стоп-последовательности:";
-/* Описание: обратные промпты */
 "promptSettings.reversePrompts.desc" = "Строки, по появлении которых модель останавливает генерацию. Обычно это закрывающий тег вроде <|im_end|> или </s>.";
 
-/* Подпись: пропускаемые токены */
 "promptSettings.skipTokens" = "Пропускать токены:";
-/* Описание: пропускаемые токены */
 "promptSettings.skipTokens.desc" = "Токены, которые нужно молча удалять из вывода перед показом пользователю. Полезно для скрытия служебных токенов вроде <|im_start|>.";
 
-/* Placeholder для полей промпта */
 "promptSettings.placeholder.prompt" = "промпт..";
 
-/* Подпись: парсить специальные токены */
 "promptSettings.parseSpecial" = "Спецтокены";
-/* Описание: парсить специальные токены */
 "promptSettings.parseSpecial.desc" = "Интерпретировать ли специальные токены (<|im_start|>, </s>) как управляющие или как обычный текст. Включайте для моделей с chat-шаблоном.";
 
-/* Подпись: добавлять BOS */
 "promptSettings.bos" = "BOS";
-/* Описание: добавлять BOS */
 "promptSettings.bos.desc" = "Добавлять токен начала последовательности (BOS) в начало промпта. Большинство современных чат-моделей делают это сами — включайте только если так написано в описании модели.";
 
-/* Подпись: добавлять EOS */
 "promptSettings.eos" = "EOS";
-/* Описание: добавлять EOS */
 "promptSettings.eos.desc" = "Добавлять токен конца последовательности (EOS) в конец промпта. Нужен редко, обычно обрабатывается chat-шаблоном.";
+
+
+/* --- Прочие настройки (AdditionalSettingsView.swift) --- */
+
+"additional.saveAsTemplate" = "Сохранить как шаблон:";
+"additional.saveAsTemplate.desc" = "Сохранить текущие настройки модели как переиспользуемый шаблон. Шаблоны появятся в списке «Шаблон настроек» на вкладке «Основное» и применяются к новым чатам одним тапом.";
+
+"additional.newTemplatePlaceholder" = "Имя нового шаблона...";
+
+"additional.saveLoadState" = "Сохранять состояние";
+"additional.saveLoadState.desc" = "Автоматически сохранять состояние диалога (KV-кэш) на диск при выходе из чата и восстанавливать при возврате. Ускоряет продолжение длинных чатов, но занимает место на диске.";
+
+"additional.chatStyle" = "Стиль чата:";
+"additional.chatStyle.desc" = "Визуальный стиль сообщений чата. «None» — обычный текст. «DocC» — в стиле документации Apple. «Basic» — простой markdown. «GitHub» — markdown как на GitHub.";
+
+"additional.chatStyle.none" = "Нет";
+"additional.chatStyle.docc" = "DocC";
+"additional.chatStyle.basic" = "Basic";
+"additional.chatStyle.github" = "GitHub";
+
+
+/* --- Настройки RAG (RagSettingsView.swift) --- */
+
+"rag.section.settings" = "Настройки RAG";
+
+"rag.chunkSize" = "Размер чанка:";
+"rag.chunkSize.desc" = "Размер каждого текстового чанка (в токенах) при разбиении документов для индексации. Маленькие чанки — точнее совпадения, но теряется контекст. Большие сохраняют контекст, но находят менее релевантные куски. Обычно: 256–512.";
+
+"rag.chunkOverlap" = "Перекрытие чанков:";
+"rag.chunkOverlap.desc" = "Сколько токенов соседние чанки делят друг с другом. Перекрытие помогает сохранить смысл на границах. Обычно: 20–30% от размера чанка (50–150 при размере 256–512).";
+
+"rag.embeddingModel" = "Модель эмбеддингов:";
+"rag.embeddingModel.desc" = "Нейросеть, которая переводит текстовые чанки в векторы для поиска по сходству. DistilBERT — самый быстрый, MiniLM-варианты — точнее. MultiQA лучше всего работает для вопросов-ответов.";
+
+"rag.similarityMetric" = "Метрика сходства:";
+"rag.similarityMetric.desc" = "Как измеряется сходство между векторами. Скалярное произведение быстрое и хорошо работает с нормализованными эмбеддингами. Косинусное — стандарт для текста. Евклидово измеряет геометрическое расстояние.";
+
+"rag.textSplitter" = "Разбиение текста:";
+"rag.textSplitter.desc" = "Алгоритм разбиения документов на чанки. «recursive» старается сохранять границы абзацев и предложений (рекомендуется). «character» режет строго по количеству символов.";
+
+"rag.maxAnswers" = "Максимум ответов RAG:";
+"rag.maxAnswers.desc" = "Сколько текстовых чанков достаётся из индекса и вставляется в промпт для каждого вопроса. Больше чанков — больше контекста, но и больше токенов и меньше фокуса. Обычно: 3–5.";
+
+"rag.placeholder.size" = "размер..";
+"rag.placeholder.count" = "число..";
+
+"rag.section.debug" = "Отладка RAG";
+"rag.debug.rebuildIndex" = "Перестроить индекс";
+"rag.debug.loadIndex" = "Загрузить индекс";
+"rag.debug.searchAndGenerate" = "Найти и сгенерировать промпт";
+"rag.debug.searchPlaceholder" = "Поисковый запрос";
+"rag.debug.loaded" = "Загружено";
+"rag.debug.sec" = "сек";
+
+
+/* --- Документы RAG (DocsView.swift) --- */
+
+"docs.section.title" = "Документы для RAG";
+"docs.contextMenu.delete" = "Удалить";
+"docs.empty.addFile" = "Добавить файл";
+"docs.import.copying" = "Копирование %@ в документы чата";
+"docs.import.addingToIndex" = "Добавление %@ в индекс сходства чата";
+"docs.import.done" = "Импорт %@ завершён.";
+
+
+/* --- Окно настроек (AppSettingsView.swift) --- */
+
+"appSettings.title" = "Настройки";
+
+
+/* --- Вкладки настроек (AppSettingsTabs.swift) --- */
+
+"appSettings.tab.models" = "Модели";
+"appSettings.tab.download" = "Загрузка";
+"appSettings.tab.info" = "Инфо";
+
+
+/* --- Модели (ModelsView.swift, DownloadModels.swift) --- */
+
+"models.section.local" = "Локальные модели";
+"models.contextMenu.delete" = "Удалить";
+"models.empty.addModel" = "Добавить модель";
+"downloadModels.title" = "Загрузка моделей";
+
+
+/* --- Строка списка загрузки моделей (ModelDownloadItem.swift) --- */
+
+"modelDownloadItem.undefined" = "Без названия";
+"modelDownloadItem.quantization" = "Квантование";
+
+
+/* --- О программе (About.swift) --- */
+
+"about.section.about" = "О программе";
+"about.credits" = "LLMFarm v%@\nАвтор: Артём Савкин\n2024";
+"about.section.help" = "Помощь";
+"about.link.documentation" = "Документация LLM Farm";
+
+
+/* --- Отрисовка сообщений (MessageView.swift) --- */
+
+"message.sender.you" = "Вы";
+"message.hide" = "Скрыть";
+"message.showText" = "Показать текст";
+"message.stats.timeAndSpeed" = "%.2f с, %.2f т/с";
+"message.stats.tokensTimeSpeed" = "%i т, %.2f с, %.2f т/с";
