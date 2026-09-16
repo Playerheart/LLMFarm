@@ -63,7 +63,6 @@ extension FileDownloadManager: URLSessionDownloadDelegate {
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
         guard let key = downloadTasks[downloadTask.taskIdentifier] else { return }
-        // HuggingFace отдаёт -1 при редиректе — защита от схлопывания в 100%
         guard totalBytesExpectedToWrite > 0 else { return }
         let p = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
         DispatchQueue.main.async {
@@ -118,9 +117,13 @@ struct DownloadButton: View {
 
     @ObservedObject private var manager = FileDownloadManager.shared
 
+    // Диалог-предупреждение перед началом загрузки
+    @State private var showWarning: Bool = false
+
     private var fileKey: String { filename }
 
-    private func download() {
+    // Фактический старт загрузки — вызывается после подтверждения в alert
+    private func startDownload() {
         status = "downloading"
         print("Downloading model \(modelName) from \(modelUrl)")
         guard let url = URL(string: modelUrl) else {
@@ -137,7 +140,10 @@ struct DownloadButton: View {
         VStack {
             switch status {
             case "download":
-                Button(action: download) {
+                Button(action: {
+                    // Сначала показываем предупреждение
+                    showWarning = true
+                }) {
                     Image(systemName: "icloud.and.arrow.down")
                 }
                 .buttonStyle(.borderless)
@@ -163,8 +169,19 @@ struct DownloadButton: View {
                 Text("Unknown status")
             }
         }
+        // Alert: предупреждение о необходимости не выходить из приложения
+        .alert("Не выходите из приложения", isPresented: $showWarning) {
+            Button("Отмена", role: .cancel) {
+                // Пользователь отказался — ничего не делаем
+            }
+            Button("Начать загрузку") {
+                startDownload()
+            }
+        } message: {
+            Text("Пока модель загружается, не выходите из приложения и не сворачивайте его. При выходе загрузка прервётся и начнётся заново.")
+        }
         .onDisappear {
-            // НЕ отменяем загрузку — она продолжается в фоне через синглтон
+            // Загрузка продолжается в фоне через синглтон — НЕ отменяем
         }
         .onChange(of: manager.status(for: fileKey)) { newStatus in
             switch newStatus {
