@@ -162,3 +162,40 @@
 "sampling.placeholder.count" = "count..";
 "sampling.placeholder.size" = "size..";
 "sampling.placeholder.val" = "val..";
+/* --- Prompt settings (tab "Prompt" in chat dialog) --- */
+
+/* Заголовок секции: формат промпта */
+"promptSettings.section.format" = "Prompt Format";
+/* Описание: формат промпта */
+"promptSettings.section.format.desc" = "Template that combines the system prompt, chat history and your message into a single text the model sees. Use {{prompt}} as a placeholder for the user's input. Example for ChatML: <|im_start|>user\\n{{prompt}}<|im_end|>\\n<|im_start|>assistant\\n";
+
+/* Заголовок секции: опции */
+"promptSettings.section.options" = "Options";
+
+/* Подпись: обратные промпты */
+"promptSettings.reversePrompts" = "Reverse prompts:";
+/* Описание: обратные промпты */
+"promptSettings.reversePrompts.desc" = "Strings that tell the model to stop generating. When any of these appear in the output, generation halts. Usually a closing tag like <|im_end|> or </s>.";
+
+/* Подпись: пропускаемые токены */
+"promptSettings.skipTokens" = "Skip tokens:";
+/* Описание: пропускаемые токены */
+"promptSettings.skipTokens.desc" = "Tokens that should be silently dropped from the output before showing it to you. Useful for hiding service tokens like <|im_start|>.";
+
+/* Placeholder для полей промпта */
+"promptSettings.placeholder.prompt" = "prompt..";
+
+/* Подпись: парсить специальные токены */
+"promptSettings.parseSpecial" = "Special";
+/* Описание: парсить специальные токены */
+"promptSettings.parseSpecial.desc" = "Whether special tokens (like <|im_start|>, </s>) in the prompt should be interpreted as control tokens or treated as plain text. Enable for models with a chat template.";
+
+/* Подпись: добавлять BOS */
+"promptSettings.bos" = "BOS";
+/* Описание: добавлять BOS */
+"promptSettings.bos.desc" = "Add the Beginning-Of-Sequence token at the start of the prompt. Most modern chat models handle this automatically — enable only if the model card says so.";
+
+/* Подпись: добавлять EOS */
+"promptSettings.eos" = "EOS";
+/* Описание: добавлять EOS */
+"promptSettings.eos.desc" = "Add the End-Of-Sequence token at the end of the prompt. Rarely needed; usually handled by the chat template.";
