@@ -114,7 +114,7 @@ struct DocsView: View {
         //        ZStack{
         //            Color("color_bg").edgesIgnoringSafeArea(.all)
         GroupBox(label:
-                 Text("Documents for RAG")
+                 Text("docs.section.title")
         ) {
             HStack{
                 Spacer()
@@ -143,7 +143,10 @@ struct DocsView: View {
                             guard let selectedFile: URL = try result.get().first else { return }
                             importStatus = ""
                             isIndexUpdatePopoverPresented = true
-                            importStatus = "Copying \(selectedFile.lastPathComponent) to chat documents"
+                            importStatus = String(
+                                format: NSLocalizedString("docs.import.copying", comment: "Статус: копирование файла в папку чата"),
+                                selectedFile.lastPathComponent
+                            )
                             docFileName = selectedFile.lastPathComponent
                             docFileUrl = selectedFile
                             docFilePath = selectedFile.lastPathComponent
@@ -151,13 +154,19 @@ struct DocsView: View {
                             modelImported = true
                             addButtonIcon = "checkmark"
                             delayIconChange()
-                            importStatus = "Adding \(selectedFile.lastPathComponent) to chat Similarity Index"
+                            importStatus = String(
+                                format: NSLocalizedString("docs.import.addingToIndex", comment: "Статус: добавление файла в индекс"),
+                                selectedFile.lastPathComponent
+                            )
                             docsPreviews = getFileListByExts(dir:dir,exts:targetExts) ?? []
                             await addFileToIndex(fileURL: docFileUrl, ragURL: ragUrl,
                                                 currentModel: currentModel,
                                                 comparisonAlgorithm: comparisonAlgorithm,
                                                 chunkMethod: chunkMethod)
-                            importStatus = "Import \(selectedFile.lastPathComponent) done."
+                            importStatus = String(
+                                format: NSLocalizedString("docs.import.done", comment: "Статус: импорт завершён"),
+                                selectedFile.lastPathComponent
+                            )
                             isIndexUpdatePopoverPresented = false
                             
                         } catch {
@@ -182,7 +191,7 @@ struct DocsView: View {
                                 Button(action: {
                                     delete(at: model)
                                 }){
-                                    Text("Delete")
+                                    Text("docs.contextMenu.delete")
                                 }
                             }
                         }
@@ -215,7 +224,7 @@ struct DocsView: View {
                         }
                         .buttonStyle(.borderless)
                         .controlSize(.large)
-                        Text("Add file")
+                        Text("docs.empty.addFile")
                             .font(.title3)
                             .frame(maxWidth: .infinity)
                         
