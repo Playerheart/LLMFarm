@@ -31,7 +31,6 @@ final class FileDownloadManager: NSObject, ObservableObject {
     }
 
     func start(url: URL, destination: URL, key: String, onComplete: ((URL) -> Void)? = nil) {
-        // Если уже качается — не перезапускаем
         if statusByKey[key] == .downloading { return }
 
         progressByKey[key] = 0.0
