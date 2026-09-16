@@ -75,3 +75,21 @@
 
 /* Переключатель RAG в панели вложений */
 "chat.rag.toggle" = "RAG";
+
+
+/* --- Chat list (sidebar) --- */
+
+/* Заголовок списка чатов */
+"chat.list.title" = "Chats";
+
+/* Контекстное меню: дублировать чат */
+"chat.list.duplicate" = "Duplicate chat";
+
+/* Контекстное меню: удалить чат */
+"chat.list.remove" = "Remove chat";
+
+/* Пустое состояние: начать новый чат */
+"chat.list.startNew" = "Start new chat";
+
+/* Пункт меню: открыть настройки */
+"chat.list.settings" = "Settings";
