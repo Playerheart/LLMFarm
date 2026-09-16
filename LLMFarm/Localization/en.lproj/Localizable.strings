@@ -1,1 +1,44 @@
+/* =========================================================
+   LLMFarm — English strings
+   ========================================================= */
 
+/* --- Download button --- */
+
+/* Заглушка для неизвестного статуса кнопки загрузки */
+"download.status.unknown" = "Unknown status";
+
+/* Заголовок алерта: предупреждение о том, что Qwen3 пока экспериментальный */
+"download.qwen3.title" = "Qwen3 — experimental support";
+
+/* Текст алерта: объяснение, что модель может не работать */
+"download.qwen3.message" = "This model may not work in this app yet. We are working on it! Thank you.\n\nContinue downloading?";
+
+/* Кнопка "Нет" в алерте Qwen3 */
+"download.qwen3.button.no" = "No";
+
+/* Кнопка "Да, продолжить" в алерте Qwen3 */
+"download.qwen3.button.continue" = "Yes, continue";
+
+/* Заголовок алерта: предупреждение не выходить из приложения */
+"download.exit.title" = "Don't leave the app";
+
+/* Текст алерта: объяснение, что при выходе загрузка прервётся */
+"download.exit.message" = "While the model is downloading, do not leave or minimize the app. If you exit, the download will be interrupted and will start over.";
+
+/* Кнопка "Отмена" в алерте про выход */
+"download.exit.button.cancel" = "Cancel";
+
+/* Кнопка "Начать загрузку" в алерте про выход */
+"download.exit.button.start" = "Start download";
+
+/* Заголовок алерта при ошибке загрузки */
+"download.error.title" = "Download error";
+
+/* Кнопка "OK" в алерте ошибки */
+"download.error.button.ok" = "OK";
+
+/* Сообщение об ошибке: некорректный URL модели. %@ — это URL */
+"download.error.invalidURL" = "Invalid URL: %@";
+
+/* Сообщение об ошибке: файл повреждён. %lld — размер в байтах, %@ — первые байты ответа сервера */
+"download.error.corrupted" = "File is corrupted (size %lld B). Server response: %@";
