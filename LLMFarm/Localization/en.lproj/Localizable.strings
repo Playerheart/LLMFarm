@@ -93,3 +93,21 @@
 
 /* Пункт меню: открыть настройки */
 "chat.list.settings" = "Settings";
+
+
+/* --- Chat settings (dialog) --- */
+
+/* Заголовок секции: основные настройки */
+"chatSettings.section.basic" = "Basic Settings";
+
+/* Заголовок секции: модель */
+"chatSettings.section.model" = "Model";
+
+/* Заголовок секции: параметры предсказания */
+"chatSettings.section.prediction" = "Prediction settings";
+
+/* Заголовок секции: параметры сэмплинга */
+"chatSettings.section.sampling" = "Sampling settings";
+
+/* Заголовок секции: прочие настройки */
+"chatSettings.section.other" = "Other settings";
