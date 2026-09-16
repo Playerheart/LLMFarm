@@ -25,23 +25,33 @@ struct SettingsHeaderView: View {
                         //                            edit_chat_dialog = false
                     }
                 } label: {
-                    Text("Cancel")
+                    Text("settingsHeader.cancel")
                 }
-                Text(edit_chat_dialog ? "Edit Chat" :"Add Chat" )
-                    .fontWeight(.semibold)
-                    .font(.title3)
-                    .frame(maxWidth:.infinity, alignment: .center)
-                    .padding(.trailing, 30)
+                Group {
+                    if edit_chat_dialog {
+                        Text("settingsHeader.title.edit")
+                    } else {
+                        Text("settingsHeader.title.add")
+                    }
+                }
+                .fontWeight(.semibold)
+                .font(.title3)
+                .frame(maxWidth:.infinity, alignment: .center)
+                .padding(.trailing, 30)
                 Spacer()
                 Button {
                     Task {
                         save_chat_settings()
                     }
                 } label: {
-                    Text(edit_chat_dialog ? "Save" :"Add" )
+                    if edit_chat_dialog {
+                        Text("settingsHeader.save")
+                    } else {
+                        Text("settingsHeader.add")
+                    }
                 }
-                .alert("To create a  chat, first select a model.", isPresented: $model_not_selected_alert) {
-                    Button("OK", role: .cancel) { }
+                .alert("settingsHeader.modelNotSelected.title", isPresented: $model_not_selected_alert) {
+                    Button("settingsHeader.modelNotSelected.ok", role: .cancel) { }
                 }
                 .disabled(model_title=="")
                 
