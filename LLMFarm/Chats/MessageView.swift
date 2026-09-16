@@ -20,7 +20,7 @@ struct MessageView: View {
         var body: some View {
             switch sender {
             case .user:
-                Text("You")
+                Text("message.sender.you")
                     .font(.caption)
                     .foregroundColor(.accentColor)
             case .user_rag:
@@ -75,10 +75,10 @@ struct MessageView: View {
                                 },
                                 label: {
                                     if showRag{
-                                        Text("Hide")
+                                        Text("message.hide")
                                             .font(.footnote)
                                     }else{
-                                        Text("Show text")
+                                        Text("message.showText")
                                             .font(.footnote)
                                     }
                                 }
@@ -116,11 +116,20 @@ struct MessageView: View {
                         Text(message.text).textSelection(.enabled).textSelection(.enabled)
                     }
                     if (message.tokens_count==0){
-                        Text(String(format: "%.2f s, %.2f t/s", totalSecond,message.tok_sec))
+                        Text(String(
+                            format: NSLocalizedString("message.stats.timeAndSpeed", comment: "Статистика генерации: время и скорость, токенов/сек"),
+                            totalSecond,
+                            message.tok_sec
+                        ))
                             .font(.footnote)
                             .foregroundColor(Color.gray)
                     }else{
-                        Text(String(format: "%i t, %.2f s, %.2f t/s",message.tokens_count, totalSecond,message.tok_sec))
+                        Text(String(
+                            format: NSLocalizedString("message.stats.tokensTimeSpeed", comment: "Статистика генерации: количество токенов, время и скорость"),
+                            message.tokens_count,
+                            totalSecond,
+                            message.tok_sec
+                        ))
                             .font(.footnote)
                             .foregroundColor(Color.gray)
                     }
