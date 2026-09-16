@@ -13,7 +13,7 @@ struct About: View {
     var body: some View {
         VStack{
             GroupBox(label:
-                        Text("About")
+                        Text("about.section.about")
             ) {
                 HStack{
                     Image("ava0_48")
@@ -23,15 +23,18 @@ struct About: View {
                 }
                 .buttonStyle(.borderless)
                 .controlSize(.large)
-                Text("LLMFarm v\(app_version)\nAuthor Artem Savkin\n2024")
+                Text(String(
+                    format: NSLocalizedString("about.credits", comment: "автор Artem Savkin, доработал playerheart,"),
+                    app_version
+                ))
                     .font(.footnote)
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
             }
             GroupBox(label:
-                        Text("Help")
+                        Text("about.section.help")
             ) {
-                Link("Visit LLM Farm documentation site", destination: URL(string: "https://llmfarm.tech/docs/FAQ")!)
+                Link("about.link.documentation", destination: URL(string: "https://llmfarm.tech/docs/FAQ")!)
                     .font(.title3)
                     .padding()
                 //                .foregroundStyle(.)
