@@ -136,15 +136,25 @@ struct DownloadButton: View {
 
     @ObservedObject private var manager = FileDownloadManager.shared
 
-    // Диалог-предупреждение перед началом загрузки
-    @State private var showWarning: Bool = false
+    // Alert 1: предупреждение про Qwen3
+    @State private var showQwen3Warning: Bool = false
 
-    // Сообщение об ошибке для показа пользователю
+    // Alert 2: предупреждение «не выходить из приложения»
+    @State private var showExitWarning: Bool = false
+
+    // Alert 3: показ ошибки загрузки
     @State private var errorMessage: String? = nil
 
     private var fileKey: String { filename }
 
-    // Фактический старт загрузки — вызывается после подтверждения в alert
+    // Определяем, является ли модель Qwen3 — по имени файла или по имени модели
+    private var isQwen3: Bool {
+        let lowerFile = filename.lowercased()
+        let lowerName = modelName.lowercased()
+        return lowerFile.contains("qwen3") || lowerName.contains("qwen3")
+    }
+
+    // Фактический старт загрузки — вызывается после всех подтверждений
     private func startDownload() {
         status = "downloading"
         print("Downloading model \(modelName) from \(modelUrl)")
@@ -164,8 +174,12 @@ struct DownloadButton: View {
             switch status {
             case "download":
                 Button(action: {
-                    // Сначала показываем предупреждение
-                    showWarning = true
+                    // Сначала проверяем, Qwen3 ли это
+                    if isQwen3 {
+                        showQwen3Warning = true
+                    } else {
+                        showExitWarning = true
+                    }
                 }) {
                     Image(systemName: "icloud.and.arrow.down")
                 }
@@ -192,10 +206,22 @@ struct DownloadButton: View {
                 Text("Unknown status")
             }
         }
-        // Alert 1: предупреждение о необходимости не выходить из приложения
-        .alert("Не выходите из приложения", isPresented: $showWarning) {
+        // Alert 1: предупреждение про Qwen3
+        .alert("Qwen3 — экспериментальная поддержка", isPresented: $showQwen3Warning) {
+            Button("Нет", role: .cancel) {
+                // Отказ — ничего не делаем
+            }
+            Button("Да, продолжить") {
+                // Если согласился — переходим к предупреждению «не выходить»
+                showExitWarning = true
+            }
+        } message: {
+            Text("Эта модель может пока не работать в этом приложении. Мы над этим работаем! Спасибо.\n\nПродолжить загрузку?")
+        }
+        // Alert 2: предупреждение «не выходить из приложения»
+        .alert("Не выходите из приложения", isPresented: $showExitWarning) {
             Button("Отмена", role: .cancel) {
-                // Пользователь отказался — ничего не делаем
+                // Отказ — ничего не делаем
             }
             Button("Начать загрузку") {
                 startDownload()
@@ -203,7 +229,7 @@ struct DownloadButton: View {
         } message: {
             Text("Пока модель загружается, не выходите из приложения и не сворачивайте его. При выходе загрузка прервётся и начнётся заново.")
         }
-        // Alert 2: показ ошибки загрузки
+        // Alert 3: показ ошибки загрузки
         .alert("Ошибка загрузки", isPresented: Binding(
             get: { errorMessage != nil },
             set: { if !$0 { errorMessage = nil } }
