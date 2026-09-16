@@ -77,12 +77,12 @@ struct ChatListView: View {
                                 Button(action: {
                                     Duplicate(at: chat_preview)
                                 }){
-                                    Text("Duplicate chat")
+                                    Text("chat.list.duplicate")
                                 }
                                 Button(action: {
                                     Delete(at: chat_preview)
                                 }){
-                                    Text("Remove chat")
+                                    Text("chat.list.remove")
                                 }
                                 
                             }
@@ -118,7 +118,7 @@ struct ChatListView: View {
                     }
                     .buttonStyle(.borderless)
                     .controlSize(.large)
-                    Text("Start new chat")
+                    Text("chat.list.startNew")
                         .font(.title3)
                         .frame(maxWidth: .infinity)
                     
@@ -130,7 +130,7 @@ struct ChatListView: View {
             after_chat_edit = refresh_chat_list
             refresh_chat_list()
         }
-        .navigationTitle("Chats")
+        .navigationTitle("chat.list.title")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Menu {
@@ -138,7 +138,7 @@ struct ChatListView: View {
                         toggleSettings = true
                     } label: {
                         HStack {
-                            Text("Settings")
+                            Text("chat.list.settings")
                             Image(systemName: "gear")
                         }
                     }
