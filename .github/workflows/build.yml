@@ -32,18 +32,15 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
-    # Скачиваем TinyLlama под именем, которое ждёт get_path_by_short_name.
-    # Имя Pythia-00001 — чтобы совпало с demo_model_name в FileHelper.swift.
-    # TinyLlama 1.1B Q4_K_M — обычный (не split) GGUF, поэтому загрузится как один файл.
+    # Демо: Qwen2.5-0.5B-Instruct Q4_K_M (~390 МБ)
+    # Скачиваем под именем Pythia-00001, потому что get_path_by_short_name
+    # в FileHelper.swift ищет именно этот файл для "[DEMO].gguf".
     - name: Prepare demo model and stubs
       run: |
-        echo "=== Директория перед подготовкой ==="
-        ls -la LLMFarm/Settings/ | head -30
-
-        echo "=== Скачиваем TinyLlama под именем Pythia-00001 ==="
+        echo "=== Скачиваем Qwen2.5-0.5B-Instruct Q4_K_M под именем Pythia-00001 ==="
         curl -L --retry 3 --fail \
           -o "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" \
-          "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf?download=true"
+          "https://huggingface.co/bartowski/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q4_K_M.gguf?download=true"
         ls -lh "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf"
 
         echo "=== Создаём пустые заглушки для частей 2-4 ==="
@@ -54,7 +51,7 @@ jobs:
         echo "=== Проверяем результат ==="
         ls -lh LLMFarm/Settings/Pythia*
 
-        echo "=== Sanity check: файл 00001 должен быть ~600 МБ ==="
+        echo "=== Sanity check: файл 00001 должен быть > 100 МБ ==="
         SIZE=$(stat -f%z "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" 2>/dev/null || stat -c%s "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf")
         echo "Размер файла 00001: $SIZE байт"
         if [ "$SIZE" -lt 100000000 ]; then
@@ -152,7 +149,7 @@ jobs:
         echo "=== Размер .ipa ==="
         ls -lh LLMFarm.ipa
         echo "=== Содержимое Payload ==="
-        ls -lh Payload/LLMFarm.app/ | grep -i pythia || echo "Pythia не найдена в .app — проверь ошибку"
+        ls -lh Payload/LLMFarm.app/ | grep -i pythia || echo "Pythia не найдена в .app"
 
     - name: Upload IPA (artifact)
       uses: actions/upload-artifact@v4
@@ -193,7 +190,7 @@ jobs:
 
           Неподписанный `.ipa` — подпиши его в ESign перед установкой.
 
-          **Демо-модель:** TinyLlama 1.1B Chat Q4_K_M, упакована как Pythia-00001 для совместимости с `demo_chat.json`.
+          **Демо-модель:** Qwen2.5-0.5B-Instruct Q4_K_M.
         files: LLMFarm.ipa
         draft: false
         prerelease: false
