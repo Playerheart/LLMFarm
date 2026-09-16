@@ -55,6 +55,14 @@ final class AIChatModel: ObservableObject {
     private var comparisonAlgorithm: SimilarityMetricType = .dotproduct
     private var chunkMethod: TextSplitterType = .recursive
     
+    // MARK: - Thinking detection (для Qwen3 и подобных моделей)
+    /// Публикует состояние "модель думает" — используется UI для показа Activity Indicator
+    @Published var isThinking: Bool = false
+    /// Внутренний флаг: начался ли уже ответ (после </think>)
+    private var answerStarted: Bool = false
+    /// Буфер для накопления токенов, пока мы не поймём, что это <think> или обычный текст
+    private var thinkBuffer: String = ""
+    
     @Published var predicting = false
     @Published var AI_typing = 0
     @Published var state: State = .none
@@ -214,6 +222,13 @@ final class AIChatModel: ObservableObject {
         self.chat?.model?.save_state()
     }
     
+    /// Сброс флагов thinking — вызывается при старте новой генерации и при её завершении
+    private func resetThinkingState() {
+        self.isThinking = false
+        self.answerStarted = false
+        self.thinkBuffer = ""
+    }
+    
     public func stop_predict(is_error: Bool = false) {
         self.chat?.flagExit = true
         self.total_sec = Double((DispatchTime.now().uptimeNanoseconds - self.start_predicting_time.uptimeNanoseconds)) / 1_000_000_000        
@@ -233,6 +248,7 @@ final class AIChatModel: ObservableObject {
         self.numberOfTokens = 0
         self.action_button_icon = "paperplane"
         self.AI_typing = 0
+        self.resetThinkingState()
         self.save_chat_history_and_state()
         if is_error {
             self.chat = nil
@@ -256,16 +272,66 @@ final class AIChatModel: ObservableObject {
         if !check {
             self.stop_predict()
         }
-        if check, self.chat?.flagExit != true, self.chat_name == self.chat?.chatName {
+        if !check || self.chat?.flagExit == true || self.chat_name != self.chat?.chatName {
+            print("chat ended.")
+            return false
+        }
+        
+        self.numberOfTokens += 1
+        
+        // Уже в фазе ответа — просто дописываем
+        if self.answerStarted {
             message.state = .predicting
             message.text += str
-            self.AI_typing += 1            
+            self.AI_typing += 1
             update_last_message(&message)
-            self.numberOfTokens += 1
-        } else {
-            print("chat ended.")
+            return true
         }
-        return check
+        
+        // Накапливаем токены, пока не поймём, что это
+        self.thinkBuffer += str
+        
+        // Нашли закрывающий тег — переходим в фазу ответа
+        if let range = self.thinkBuffer.range(of: "</think>") {
+            self.answerStarted = true
+            self.isThinking = false
+            let after = String(self.thinkBuffer[range.upperBound...])
+            self.thinkBuffer = ""
+            message.state = .predicting
+            message.text = after.trimmingCharacters(in: .whitespacesAndNewlines)
+            self.AI_typing += 1
+            update_last_message(&message)
+            return true
+        }
+        
+        // Открылся блок размышления — показываем спиннер, текст не выводим
+        if self.thinkBuffer.contains("<think>") {
+            self.isThinking = true
+            message.state = .predicting
+            message.text = ""
+            update_last_message(&message)
+            return true
+        }
+        
+        // Проверяем, может ли буфер ещё стать <think>
+        let couldBeThink = self.thinkBuffer.hasPrefix("<") && "<think>".hasPrefix(self.thinkBuffer)
+        
+        if !couldBeThink {
+            // Точно не <think> — это обычный ответ (например, Qwen2.5 без thinking)
+            self.answerStarted = true
+            self.thinkBuffer = ""
+            message.state = .predicting
+            message.text += str
+            self.AI_typing += 1
+            update_last_message(&message)
+            return true
+        }
+        
+        // Пока копим — UI ничего не показывает, isThinking пока false
+        // (это короткий промежуток в 1-6 символов, пользователь его не заметит)
+        message.state = .predicting
+        update_last_message(&message)
+        return true
     }
     
     public func finish_load(append_err_msg: Bool = false, msg_text: String = "") {
@@ -296,6 +362,7 @@ final class AIChatModel: ObservableObject {
         if final_str.hasPrefix("[Error]") {
             self.messages.append(Message(sender: .system, state: .error, text: "Eval \(final_str)", tok_sec: 0))
         }
+        self.resetThinkingState()
         self.save_chat_history_and_state()
     }
 
@@ -373,7 +440,11 @@ final class AIChatModel: ObservableObject {
         
         self.state = .completed
         self.chat?.chatName = self.chat_name
-        self.chat?.flagExit = false        
+        self.chat?.flagExit = false
+        
+        // Сброс состояния thinking перед новой генерацией
+        self.resetThinkingState()
+        
         var message = Message(sender: .system, text: "", tok_sec: 0)
         self.messages.append(message)
         self.numberOfTokens = 0
