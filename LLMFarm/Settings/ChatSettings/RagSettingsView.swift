@@ -66,17 +66,21 @@ struct RagSettingsView: View {
         .popover(isPresented: Binding(
             get: { activeInfo == key },
             set: { if !$0 { activeInfo = nil } }
-        )) {
-            VStack(alignment: .leading, spacing: 6) {
-                Text(title)
-                    .font(.headline)
-                Text(description)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+        ), arrowEdge: .top) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(title)
+                        .font(.headline)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text(description)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(12)
-            .frame(maxWidth: 280)
+            .frame(idealWidth: 320, maxWidth: 360, maxHeight: 400)
             .presentationCompactAdaptation(.popover)
         }
     }
