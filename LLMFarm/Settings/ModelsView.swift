@@ -54,7 +54,7 @@ struct ModelsView: View {
         //        ZStack{
         //            Color("color_bg").edgesIgnoringSafeArea(.all)
         GroupBox(label:
-                 Text("Local models")
+                 Text("models.section.local")
         ) {
             HStack{
                 Spacer()
@@ -110,7 +110,7 @@ struct ModelsView: View {
                                 Button(action: {
                                     delete(at: model)
                                 }){
-                                    Text("Delete")
+                                    Text("models.contextMenu.delete")
                                 }
                             }
                         }
@@ -143,7 +143,7 @@ struct ModelsView: View {
                         }
                         .buttonStyle(.borderless)
                         .controlSize(.large)
-                        Text("Add model")
+                        Text("models.empty.addModel")
                             .font(.title3)
                             .frame(maxWidth: .infinity)
                         
@@ -172,4 +172,3 @@ struct ModelsView: View {
 //        ModelsView()
 //    }
 //}
-
