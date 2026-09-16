@@ -18,10 +18,53 @@ struct PromptSettingsView: View {
     @Binding var parse_special_tokens: Bool
     @Binding var model_inference:String
     
+    /// Идентификатор открытого popover'а (nil — закрыт)
+    @State private var activeInfo: String? = nil
+    
+    // MARK: - Info button
+    
+    private func infoButton(key: String,
+                            title: String,
+                            description: String) -> some View {
+        Button {
+            activeInfo = (activeInfo == key) ? nil : key
+        } label: {
+            Image(systemName: "info.circle")
+                .foregroundColor(.secondary)
+                .font(.caption)
+        }
+        .buttonStyle(.plain)
+        .popover(isPresented: Binding(
+            get: { activeInfo == key },
+            set: { if !$0 { activeInfo = nil } }
+        )) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title)
+                    .font(.headline)
+                Text(description)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(12)
+            .frame(maxWidth: 280)
+            .presentationCompactAdaptation(.popover)
+        }
+    }
+    
+    // MARK: - Body
+    
     var body: some View {
         ScrollView{
             GroupBox(label:
-                        Text("Prompt Format")
+                        HStack(spacing: 4) {
+                            Text("promptSettings.section.format")
+                            infoButton(
+                                key: "format",
+                                title: NSLocalizedString("promptSettings.section.format", comment: ""),
+                                description: NSLocalizedString("promptSettings.section.format.desc", comment: "")
+                            )
+                        }
             ) {
                 VStack {
                     //                Text("Format:")
@@ -40,16 +83,23 @@ struct PromptSettingsView: View {
             }.frame(minHeight: 200)
             
             GroupBox(label:
-                        Text("Options")
+                        Text("promptSettings.section.options")
             ) {
                 VStack {
-                    Text("Reverse prompts:")
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack(spacing: 4) {
+                        Text("promptSettings.reversePrompts")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        infoButton(
+                            key: "reversePrompts",
+                            title: NSLocalizedString("promptSettings.reversePrompts", comment: ""),
+                            description: NSLocalizedString("promptSettings.reversePrompts.desc", comment: "")
+                        )
+                    }
 #if os(macOS)
                     DidEndEditingTextField(text: $reverse_prompt, didEndEditing: { newName in})
                         .frame( alignment: .leading)
 #else
-                    TextField("prompt..", text: $reverse_prompt, axis: .vertical)
+                    TextField("promptSettings.placeholder.prompt", text: $reverse_prompt, axis: .vertical)
                         .lineLimit(2)
                         .textFieldStyle(.roundedBorder)
                         .frame( alignment: .leading)
@@ -61,13 +111,20 @@ struct PromptSettingsView: View {
                 .padding(.horizontal, 5)
                 
                 VStack {
-                    Text("Skip tokens:")
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack(spacing: 4) {
+                        Text("promptSettings.skipTokens")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        infoButton(
+                            key: "skipTokens",
+                            title: NSLocalizedString("promptSettings.skipTokens", comment: ""),
+                            description: NSLocalizedString("promptSettings.skipTokens.desc", comment: "")
+                        )
+                    }
 #if os(macOS)
                     DidEndEditingTextField(text: $skip_tokens, didEndEditing: { newName in})
                         .frame( alignment: .leading)
 #else
-                    TextField("prompt..", text: $skip_tokens, axis: .vertical)
+                    TextField("promptSettings.placeholder.prompt", text: $skip_tokens, axis: .vertical)
                         .lineLimit(2)
                         .textFieldStyle(.roundedBorder)
                         .frame( alignment: .leading)
@@ -78,20 +135,47 @@ struct PromptSettingsView: View {
                 .padding(.top, 8)
                 .padding(.horizontal, 5)
                 
-                HStack {
-                    Toggle("Special", isOn: $parse_special_tokens)
-                        .frame(maxWidth: 120, alignment: .trailing)
+                HStack(spacing: 4) {
+                    Text("promptSettings.parseSpecial")
+                    infoButton(
+                        key: "parseSpecial",
+                        title: NSLocalizedString("promptSettings.parseSpecial", comment: ""),
+                        description: NSLocalizedString("promptSettings.parseSpecial.desc", comment: "")
+                    )
+                    Toggle("", isOn: $parse_special_tokens)
+                        .labelsHidden()
                         .disabled(model_inference != "llama" )
                     Spacer()
                 }
+                .frame(maxWidth: 160, alignment: .leading)
                 .padding(.horizontal, 5)
                 .padding(.bottom, 4)
                 
-                HStack {
-                    Toggle("BOS", isOn: $add_bos_token)
-                        .frame(maxWidth: 120, alignment: .trailing)
-                    Toggle("EOS", isOn: $add_eos_token)
-                        .frame(maxWidth: 120, alignment: .trailing)
+                HStack(spacing: 12) {
+                    HStack(spacing: 4) {
+                        Text("promptSettings.bos")
+                        infoButton(
+                            key: "bos",
+                            title: NSLocalizedString("promptSettings.bos", comment: ""),
+                            description: NSLocalizedString("promptSettings.bos.desc", comment: "")
+                        )
+                        Toggle("", isOn: $add_bos_token)
+                            .labelsHidden()
+                    }
+                    .frame(maxWidth: 130, alignment: .leading)
+                    
+                    HStack(spacing: 4) {
+                        Text("promptSettings.eos")
+                        infoButton(
+                            key: "eos",
+                            title: NSLocalizedString("promptSettings.eos", comment: ""),
+                            description: NSLocalizedString("promptSettings.eos.desc", comment: "")
+                        )
+                        Toggle("", isOn: $add_eos_token)
+                            .labelsHidden()
+                    }
+                    .frame(maxWidth: 130, alignment: .leading)
+                    
                     Spacer()
                 }
                 .padding(.horizontal, 5)
