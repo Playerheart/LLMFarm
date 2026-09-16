@@ -123,6 +123,18 @@
                 "file_name": "Meta-Llama-3.1-8B-Instruct-Q2_K.gguf",
                 "size": "3.18",
                 "Q": "Q2_K"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q3_K_S.gguf?download=true",
+                "file_name": "Meta-Llama-3.1-8B-Instruct-Q3_K_S.gguf",
+                "size": "3.50",
+                "Q": "Q3_K_S"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf?download=true",
+                "file_name": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+                "size": "4.92",
+                "Q": "Q4_K_M"
             }
         ]
     },
@@ -466,53 +478,81 @@
         ]
     },
     {
-        "name": "Qwen3.5 0.8B",
+        "name": "Qwen3 0.6B (unsloth)",
         "models": [
             {
-                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q4_K_M.gguf?download=true",
-                "file_name": "Qwen3.5-0.8B-Q4_K_M.gguf",
-                "size": "0.51",
+                "url": "https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3-0.6B-Q4_K_M.gguf",
+                "size": "0.40",
                 "Q": "Q4_K_M"
             },
             {
-                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q5_K_M.gguf?download=true",
-                "file_name": "Qwen3.5-0.8B-Q5_K_M.gguf",
-                "size": "0.59",
-                "Q": "Q5_K_M"
-            },
-            {
-                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q8_0.gguf?download=true",
-                "file_name": "Qwen3.5-0.8B-Q8_0.gguf",
-                "size": "0.81",
+                "url": "https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf?download=true",
+                "file_name": "Qwen3-0.6B-Q8_0.gguf",
+                "size": "0.64",
                 "Q": "Q8_0"
             }
         ]
     },
     {
-        "name": "Qwen3.5 4B",
+        "name": "Qwen3 1.7B (unsloth)",
         "models": [
             {
-                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q4_K_M.gguf?download=true",
-                "file_name": "Qwen3.5-4B-Q4_K_M.gguf",
+                "url": "https://huggingface.co/unsloth/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3-1.7B-Q4_K_M.gguf",
+                "size": "1.05",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/unsloth/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q8_0.gguf?download=true",
+                "file_name": "Qwen3-1.7B-Q8_0.gguf",
+                "size": "1.83",
+                "Q": "Q8_0"
+            }
+        ]
+    },
+    {
+        "name": "Qwen3 4B (unsloth)",
+        "models": [
+            {
+                "url": "https://huggingface.co/unsloth/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3-4B-Q4_K_M.gguf",
                 "size": "2.50",
                 "Q": "Q4_K_M"
             },
             {
-                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q5_K_M.gguf?download=true",
-                "file_name": "Qwen3.5-4B-Q5_K_M.gguf",
+                "url": "https://huggingface.co/unsloth/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q5_K_M.gguf?download=true",
+                "file_name": "Qwen3-4B-Q5_K_M.gguf",
                 "size": "2.89",
                 "Q": "Q5_K_M"
             }
         ]
     },
     {
-        "name": "Qwen3.5 9B",
+        "name": "Qwen3 8B (unsloth)",
         "models": [
             {
-                "url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q4_K_M.gguf?download=true",
-                "file_name": "Qwen3.5-9B-Q4_K_M.gguf",
-                "size": "5.63",
+                "url": "https://huggingface.co/unsloth/Qwen3-8B-GGUF/resolve/main/Qwen3-8B-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen3-8B-Q4_K_M.gguf",
+                "size": "4.68",
                 "Q": "Q4_K_M"
+            }
+        ]
+    },
+    {
+        "name": "Qwen2.5-Coder 0.5B Instruct",
+        "models": [
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-Coder-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-0.5B-Instruct-Q4_K_M.gguf?download=true",
+                "file_name": "Qwen2.5-Coder-0.5B-Instruct-Q4_K_M.gguf",
+                "size": "0.40",
+                "Q": "Q4_K_M"
+            },
+            {
+                "url": "https://huggingface.co/bartowski/Qwen2.5-Coder-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-0.5B-Instruct-Q8_0.gguf?download=true",
+                "file_name": "Qwen2.5-Coder-0.5B-Instruct-Q8_0.gguf",
+                "size": "0.64",
+                "Q": "Q8_0"
             }
         ]
     },
