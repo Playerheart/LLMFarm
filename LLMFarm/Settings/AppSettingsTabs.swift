@@ -17,19 +17,34 @@ struct AppSettingTabs : View {
     var body: some View{
         VStack{
  
-            TabButton(index: $index, targetIndex: 0, image: Image(systemName: "square.stack.3d.up.fill"), text: "Models")
+            TabButton(
+                index: $index,
+                targetIndex: 0,
+                image: Image(systemName: "square.stack.3d.up.fill"),
+                text: NSLocalizedString("appSettings.tab.models", comment: "Вкладка настроек: список моделей")
+            )
 #if os(macOS)
             .padding(.top,topSafeAreaInset()-20)
 #else
             .padding(.top,UIApplication.shared.keyWindow?.safeAreaInsets.top)
 #endif
             
-            TabButton(index: $index, targetIndex: 1, image: Image(systemName: "square.and.arrow.down.on.square.fill"), text: "Download")
+            TabButton(
+                index: $index,
+                targetIndex: 1,
+                image: Image(systemName: "square.and.arrow.down.on.square.fill"),
+                text: NSLocalizedString("appSettings.tab.download", comment: "Вкладка настроек: загрузка моделей")
+            )
             .padding(.top,15)
             
             Spacer(minLength: 0)
 
-            TabButton(index: $index, targetIndex: 2, image: Image(systemName: "info.circle.fill"), text: "Info")
+            TabButton(
+                index: $index,
+                targetIndex: 2,
+                image: Image(systemName: "info.circle.fill"),
+                text: NSLocalizedString("appSettings.tab.info", comment: "Вкладка настроек: о программе")
+            )
 //            .padding(.bottom)
 #if os(macOS)
             .padding(.top,bottomSafeAreaInset())
@@ -48,5 +63,3 @@ struct AppSettingTabs : View {
         .clipShape(CShape())
     }
 }
-
-
