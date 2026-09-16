@@ -49,7 +49,7 @@ struct BasicSettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             //                            .padding([.trailing, .leading, .top])
 #else
-            TextField("Title...", text: $chat_title)
+            TextField("basicSettings.title.placeholder", text: $chat_title)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .textFieldStyle(.plain)
             //                            .padding([.trailing, .leading, .top])
@@ -64,7 +64,7 @@ struct BasicSettingsView: View {
         .padding([.top ])
         
         HStack{
-            Text("Settings template:")
+            Text("basicSettings.settingsTemplate")
                 .frame(maxWidth: .infinity, alignment: .leading)
             Picker("", selection: $model_settings_template) {
                 ForEach(model_setting_templates, id: \.self) { template in
