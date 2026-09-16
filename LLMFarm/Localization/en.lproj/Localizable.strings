@@ -277,7 +277,7 @@
 /* --- About (About.swift) --- */
 
 "about.section.about" = "About";
-"about.credits" = "LLMFarm v%@\nAuthor: Artem Savkin\nContinued by: Ilnar Nabiullin\n2026";
+"about.credits" = "LLMFarm v%@\nAuthor: Artem Savkin\nContinued by: Ilnar Nabiullin\n2024-2026";
 "about.section.help" = "Help";
 "about.link.documentation" = "Visit LLM Farm documentation site";
 
