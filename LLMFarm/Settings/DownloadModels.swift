@@ -114,7 +114,7 @@ struct DownloadModelsView: View {
                         }
                         .buttonStyle(.borderless)
                         .controlSize(.large)
-                        Text("Add model")
+                        Text("models.empty.addModel")
                             .font(.title3)
                             .frame(maxWidth: .infinity)
                         
@@ -127,7 +127,6 @@ struct DownloadModelsView: View {
         .toolbar{
            
         }
-        .navigationTitle("Download models")      
+        .navigationTitle("downloadModels.title")      
     }
 }
-
