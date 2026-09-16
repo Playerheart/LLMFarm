@@ -27,7 +27,7 @@ struct ModelDownloadItem: View {
     
     init(modelInfo: DownloadModelInfo) {
         self.modelInfo = modelInfo
-        self._modelName = State(initialValue:modelInfo.name ?? "Undefined")
+        self._modelName = State(initialValue:modelInfo.name ?? NSLocalizedString("modelDownloadItem.undefined", comment: "Fallback-имя модели, если в JSON не указано"))
         self._model_files = State(initialValue:modelInfo.models ?? [])
         if self.model_files.count>0{
             self._modelQuantization = State(initialValue:self.model_files[0]["Q"] ?? "")
@@ -67,7 +67,7 @@ struct ModelDownloadItem: View {
                     
                     Menu {
                         
-                        Section("Quantization") {
+                        Section("modelDownloadItem.quantization") {
                             ForEach(model_files, id: \.self) { model_info in
                                 Button(model_info["Q"]!){
                                     file_name = model_info["file_name"] ?? ""
