@@ -32,29 +32,18 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
-    # Меняем имя и версию приложения в Info.plist
     - name: Set app name and version
       run: |
         PLIST="LLMFarm/Info.plist"
+
         echo "=== Info.plist до правок ==="
-        /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$PLIST" 2>/dev/null || echo "(CFBundleDisplayName отсутствует)"
-        /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$PLIST" 2>/dev/null || echo "(CFBundleShortVersionString отсутствует)"
+        /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$PLIST" 2>/dev/null || echo "(нет CFBundleDisplayName)"
+        /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$PLIST" 2>/dev/null || echo "(нет CFBundleShortVersionString)"
 
-        # Имя приложения (под иконкой на домашнем экране)
-        /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName LLMFarm playerheart" "$PLIST" 2>/dev/null \
-          || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string LLMFarm playerheart" "$PLIST"
-
-        # Внутреннее имя бандла
-        /usr/libexec/PlistBuddy -c "Set :CFBundleName LLMFarm playerheart" "$PLIST" 2>/dev/null \
-          || /usr/libexec/PlistBuddy -c "Add :CFBundleName string LLMFarm playerheart" "$PLIST"
-
-        # Версия приложения
-        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 2.0" "$PLIST" 2>/dev/null \
-          || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string 2.0" "$PLIST"
-
-        # Build number
-        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 2.0" "$PLIST" 2>/dev/null \
-          || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string 2.0" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName LLMFarm playerheart" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string LLMFarm playerheart" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleName LLMFarm playerheart" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleName string LLMFarm playerheart" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 2.0" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string 2.0" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 2.0" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string 2.0" "$PLIST"
 
         echo "=== Info.plist после правок ==="
         /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$PLIST"
@@ -62,13 +51,10 @@ jobs:
         /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$PLIST"
         /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$PLIST"
 
-    # Демо-модель Qwen2.5-0.5B Q4_K_M
     - name: Prepare demo model and stubs
       run: |
         echo "=== Скачиваем Qwen2.5-0.5B-Instruct Q4_K_M под именем Pythia-00001 ==="
-        curl -L --retry 3 --fail \
-          -o "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" \
-          "https://huggingface.co/bartowski/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q4_K_M.gguf?download=true"
+        curl -L --retry 3 --fail -o "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" "https://huggingface.co/bartowski/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q4_K_M.gguf?download=true"
         ls -lh "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf"
 
         echo "=== Создаём пустые заглушки для частей 2-4 ==="
@@ -80,10 +66,10 @@ jobs:
         SIZE=$(stat -f%z "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" 2>/dev/null || stat -c%s "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf")
         echo "Размер файла 00001: $SIZE байт"
         if [ "$SIZE" -lt 100000000 ]; then
-          echo "❌ Файл меньше 100 МБ — что-то пошло не так"
+          echo "ОШИБКА: файл меньше 100 МБ"
           exit 1
         fi
-        echo "✅ Файл 00001 скачан корректно"
+        echo "OK: файл 00001 скачан корректно"
 
     - name: Cache llama.xcframework
       id: cache-llama
@@ -107,19 +93,18 @@ jobs:
         fi
         cd ../../..
 
-   } - name: Verify llama.xc flagframework exists
+    - name: Verify llama.xcframework exists
       run: |
         if [ ! -d "llmfarm_core.swift/llama.cpp/build-apple/llama.xcframework" ]; then
-          echo "❌ llama.xcframework отсутствует!"
+          echo "ОШИБКА: llama.xcframework отсутствует!"
           exit 1
         fi
-        echo "✅ llama.xcframework на месте"
+        echo "OK: llama.xcframework на месте"
 
-   ' - name: Cache Swift Package Manager
-      uses: actions/c \
-ache@v4
+    - name: Cache Swift Package Manager
+      uses: actions/cache@v4
       with:
-        path         : |
+        path: |
           ~/Library/Caches/org.swift.swiftpm
           ~/Library/org.swift.swiftpm
           .build
@@ -141,12 +126,7 @@ ache@v4
         echo "=== Все схемы проекта ==="
         xcodebuild -list -project LLMFarm.xcodeproj
 
-        SCHEME_NAME=$(xcodebuild -list -project LLMFarm.xcodeproj \
-          | awk '/Schemes:/{flag=1; next} /^$/{flag=0 | grep -i "LLMFarm" \
-          | grep -vi "test" \
-          | grep -vi "finetune" \
-          | head -1 \
-          | xargs)
+        SCHEME_NAME=$(xcodebuild -list -project LLMFarm.xcodeproj | awk '/Schemes:/{flag=1; next} /^$/{flag=0} flag' | grep -i "LLMFarm" | grep -vi "test" | grep -vi "finetune" | head -1 | xargs)
 
         echo "=== Выбрана схема: $SCHEME_NAME ==="
 
@@ -168,16 +148,15 @@ ache@v4
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
 
-    # Проверяем, что версия и имя применились к финальному .app
     - name: Verify Info.plist changes
       run: |
         APP_PATH=$(find ./build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 | head -1)
         echo "=== .app: $APP_PATH ==="
         PLIST="$APP_PATH/Info.plist"
-        echo "CFBundleDisplayName: $(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$PLIST" 2>/dev/null)"
-        echo "CFBundleName:        $(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$PLIST" 2>/dev/null)"
+        echo "CFBundleDisplayName:  $(/usr/libexec/PlistBuddy -c 'Print :CFBundleDisplayName' "$PLIST" 2>/dev/null)"
+        echo "CFBundleName:         $(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$PLIST" 2>/dev/null)"
         echo "CFBundleShortVersion: $(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$PLIST" 2>/dev/null)"
-        echo "CFBundleVersion:     $(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$PLIST" 2>/dev/null)"
+        echo "CFBundleVersion:      $(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$PLIST" 2>/dev/null)"
 
     - name: Package into IPA
       run: |
