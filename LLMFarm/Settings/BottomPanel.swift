@@ -26,7 +26,7 @@ struct BottomPanelView: View {
                     
                     .font(.system(size: 20))
                     .foregroundColor(self.tabIndex == 0 ? .blue : .secondary)
-                Text("Chats")
+                Text("chat.list.title")
                     .font(.footnote)
                     .opacity(0.5)
             }.frame(maxWidth: .infinity, alignment: .center)
@@ -43,7 +43,7 @@ struct BottomPanelView: View {
                     
                     .font(.system(size: 20))
                     .foregroundColor(self.tabIndex == 1 ? .blue : .secondary)
-                Text("Settings")
+                Text("chat.list.settings")
                     .font(.footnote)
                     .opacity(0.5)
             }.frame(maxWidth: .infinity, alignment: .center)
