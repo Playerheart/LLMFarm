@@ -42,8 +42,8 @@ jobs:
 
         /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName LLMFarm playerheart" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string LLMFarm playerheart" "$PLIST"
         /usr/libexec/PlistBuddy -c "Set :CFBundleName LLMFarm playerheart" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleName string LLMFarm playerheart" "$PLIST"
-        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 2.0" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string 2.0" "$PLIST"
-        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 2.0" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string 2.0" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 2.39.102" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string 2.39.102" "$PLIST"
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 2.39.102" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string 2.39.102" "$PLIST"
 
         echo "=== Info.plist после правок ==="
         /usr/libexec/PlistBuddy -c "Print :CFBundleDisplayName" "$PLIST"
@@ -142,8 +142,8 @@ jobs:
           -sdk iphoneos \
           -destination 'generic/platform=iOS' \
           -derivedDataPath ./build \
-          MARKETING_VERSION=2.0 \
-          CURRENT_PROJECT_VERSION=2.0 \
+          MARKETING_VERSION=2.39.102 \
+          CURRENT_PROJECT_VERSION=2.39.102 \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO
@@ -236,16 +236,22 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: build-${{ steps.date.outputs.date }}
-        name: "LLMFarm playerheart 2.0 build ${{ steps.date.outputs.date }}"
+        name: "LLMFarm playerheart 2.39.102 build ${{ steps.date.outputs.date }}"
         body: |
           Автоматическая сборка LLMFarm playerheart.
 
           **Приложение:** LLMFarm playerheart
-          **Версия:** 2.0
+          **Версия:** 2.39.102
           **Дата:** ${{ steps.date.outputs.date }}
           **Commit:** ${{ github.sha }}
           **llama.cpp:** ${{ steps.llama_version.outputs.version }}
           **Размер .ipa:** ~${{ steps.ipa_size.outputs.size_mb }} МБ
+
+          **🌍 Языки:** русский и английский. Язык выбирается автоматически по системным настройкам iOS, либо отдельно для приложения: Настройки → LLMFarm → Язык.
+
+          **Что нового:**
+          - 🇷🇺 Полная локализация интерфейса на русский язык
+          - ℹ️ Описания параметров в попапах «i» на Prediction / Sampling / Prompt / Additional / RAG — на русском и английском
 
           Неподписанный `.ipa` — подпиши его в ESign перед установкой.
 
