@@ -27,7 +27,7 @@ struct SettingsView: View {
                 VStack{
                     
                         HStack{
-                            Text("Settings")
+                            Text("appSettings.title")
                                 .fontWeight(.semibold)
                                 .font(.title2)
                         }
