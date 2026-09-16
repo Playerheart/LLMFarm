@@ -32,21 +32,36 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
-    - name: Download demo model (TinyLlama 1.1B Chat Q4_K_M)
+    # Скачиваем TinyLlama под именем, которое ждёт get_path_by_short_name.
+    # Имя Pythia-00001 — чтобы совпало с demo_model_name в FileHelper.swift.
+    # TinyLlama 1.1B Q4_K_M — обычный (не split) GGUF, поэтому загрузится как один файл.
+    - name: Prepare demo model and stubs
       run: |
-        curl -L --retry 3 --fail \
-          -o "LLMFarm/Settings/[DEMO].gguf" \
-          "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf?download=true"
-        ls -lh "LLMFarm/Settings/[DEMO].gguf"
+        echo "=== Директория перед подготовкой ==="
+        ls -la LLMFarm/Settings/ | head -30
 
-    - name: Stub missing Pythia files (referenced in project.pbxproj)
-      run: |
-        for i in 1 2 3 4; do
-          f="LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-0000${i}-of-00004.gguf"
-          touch "$f"
-          echo "created: $f"
-        done
-        ls -la LLMFarm/Settings/Pythia*
+        echo "=== Скачиваем TinyLlama под именем Pythia-00001 ==="
+        curl -L --retry 3 --fail \
+          -o "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" \
+          "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf?download=true"
+        ls -lh "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf"
+
+        echo "=== Создаём пустые заглушки для частей 2-4 ==="
+        touch "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00002-of-00004.gguf"
+        touch "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00003-of-00004.gguf"
+        touch "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00004-of-00004.gguf"
+
+        echo "=== Проверяем результат ==="
+        ls -lh LLMFarm/Settings/Pythia*
+
+        echo "=== Sanity check: файл 00001 должен быть ~600 МБ ==="
+        SIZE=$(stat -f%z "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf" 2>/dev/null || stat -c%s "LLMFarm/Settings/Pythia410m-V0-Instruct.Q6_K_split.gguf-00001-of-00004.gguf")
+        echo "Размер файла 00001: $SIZE байт"
+        if [ "$SIZE" -lt 100000000 ]; then
+          echo "❌ Файл меньше 100 МБ — что-то пошло не так"
+          exit 1
+        fi
+        echo "✅ Файл 00001 скачан корректно"
 
     - name: Cache llama.xcframework
       id: cache-llama
@@ -134,6 +149,10 @@ jobs:
         mkdir -p Payload
         find ./build/Build/Products/Release-iphoneos -name "*.app" -maxdepth 1 -exec cp -r {} Payload/ \;
         zip -r LLMFarm.ipa Payload
+        echo "=== Размер .ipa ==="
+        ls -lh LLMFarm.ipa
+        echo "=== Содержимое Payload ==="
+        ls -lh Payload/LLMFarm.app/ | grep -i pythia || echo "Pythia не найдена в .app — проверь ошибку"
 
     - name: Upload IPA (artifact)
       uses: actions/upload-artifact@v4
@@ -152,6 +171,13 @@ jobs:
         VERSION=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
         echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+    - name: Get IPA size
+      id: ipa_size
+      run: |
+        SIZE=$(stat -f%z LLMFarm.ipa 2>/dev/null || stat -c%s LLMFarm.ipa)
+        SIZE_MB=$((SIZE / 1024 / 1024))
+        echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
@@ -163,11 +189,11 @@ jobs:
           **Дата:** ${{ steps.date.outputs.date }}
           **Commit:** ${{ github.sha }}
           **llama.cpp:** ${{ steps.llama_version.outputs.version }}
-          **Размер:** ~400 МБ
+          **Размер .ipa:** ~${{ steps.ipa_size.outputs.size_mb }} МБ
 
           Неподписанный `.ipa` — подпиши его в ESign перед установкой.
 
-          **Демо-модель:** TinyLlama 1.1B Chat Q4_K_M.
+          **Демо-модель:** TinyLlama 1.1B Chat Q4_K_M, упакована как Pythia-00001 для совместимости с `demo_chat.json`.
         files: LLMFarm.ipa
         draft: false
         prerelease: false
