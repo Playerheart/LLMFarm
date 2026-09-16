@@ -22,11 +22,52 @@ struct PredictionSettingsView: View {
     @Binding var model_inference_inner:String
     @Binding var has_clip: Bool
     
+    /// Идентификатор открытого popover'а (nil — закрыт)
+    @State private var activeInfo: String? = nil
+
+    // MARK: - Info button
+    
+    private func infoButton(key: String,
+                            title: String,
+                            description: String) -> some View {
+        Button {
+            activeInfo = (activeInfo == key) ? nil : key
+        } label: {
+            Image(systemName: "info.circle")
+                .foregroundColor(.secondary)
+                .font(.caption)
+        }
+        .buttonStyle(.plain)
+        .popover(isPresented: Binding(
+            get: { activeInfo == key },
+            set: { if !$0 { activeInfo = nil } }
+        )) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title)
+                    .font(.headline)
+                Text(description)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(12)
+            .frame(maxWidth: 280)
+            .presentationCompactAdaptation(.popover)
+        }
+    }
+    
+    // MARK: - Body
+    
     var body: some View {
-        HStack {
-            Text("Threads:")
+        HStack(spacing: 4) {
+            Text("prediction.threads")
                 .frame(maxWidth: 75, alignment: .leading)
-            TextField("count..", value: $numberOfThreads, format:.number)
+            infoButton(
+                key: "threads",
+                title: NSLocalizedString("prediction.threads", comment: ""),
+                description: NSLocalizedString("prediction.threads.desc", comment: "")
+            )
+            TextField("prediction.placeholder.count", value: $numberOfThreads, format:.number)
                 .frame( alignment: .leading)
                 .multilineTextAlignment(.trailing)
                 .textFieldStyle(.plain)
@@ -38,37 +79,92 @@ struct PredictionSettingsView: View {
         .padding(.top)
         
         HStack {
-            Toggle("Metal", isOn: $use_metal)
-                .frame(maxWidth: 120, alignment: .leading)
-                .disabled((model_inference != "llama" && model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
-            if (has_clip == true){
-                Toggle("ClipM", isOn: $use_clip_metal)
-                    .frame(maxWidth: 120, alignment: .leading)
+            HStack(spacing: 4) {
+                Text("prediction.metal")
+                infoButton(
+                    key: "metal",
+                    title: NSLocalizedString("prediction.metal", comment: ""),
+                    description: NSLocalizedString("prediction.metal.desc", comment: "")
+                )
+                Toggle("", isOn: $use_metal)
+                    .labelsHidden()
+                    .disabled((model_inference != "llama" && model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
             }
-            Toggle("FAttn", isOn: $flash_attn)
-               .frame(maxWidth: 120, alignment: .leading)
-               .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
+            .frame(maxWidth: 140, alignment: .leading)
+            
+            if (has_clip == true){
+                HStack(spacing: 4) {
+                    Text("prediction.clipMetal")
+                    infoButton(
+                        key: "clipMetal",
+                        title: NSLocalizedString("prediction.clipMetal", comment: ""),
+                        description: NSLocalizedString("prediction.clipMetal.desc", comment: "")
+                    )
+                    Toggle("", isOn: $use_clip_metal)
+                        .labelsHidden()
+                }
+                .frame(maxWidth: 140, alignment: .leading)
+            }
+            
+            HStack(spacing: 4) {
+                Text("prediction.flashAttn")
+                infoButton(
+                    key: "flashAttn",
+                    title: NSLocalizedString("prediction.flashAttn", comment: ""),
+                    description: NSLocalizedString("prediction.flashAttn.desc", comment: "")
+                )
+                Toggle("", isOn: $flash_attn)
+                    .labelsHidden()
+                    .disabled((self.model_inference != "llama" && self.model_inference_inner != "gpt2" ) /*|| hardware_arch=="x86_64"*/)
+            }
+            .frame(maxWidth: 140, alignment: .leading)
+            
             Spacer()
         }
         .padding(.horizontal, 5)
         .padding(.bottom, 4)
         
         HStack {
-            Toggle("MLock", isOn: $mlock)
-                .frame(maxWidth: 120,  alignment: .leading)
-                .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
-            Toggle("MMap", isOn: $mmap)
-                .frame(maxWidth: 120,  alignment: .leading)
-                .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
+            HStack(spacing: 4) {
+                Text("prediction.mlock")
+                infoButton(
+                    key: "mlock",
+                    title: NSLocalizedString("prediction.mlock", comment: ""),
+                    description: NSLocalizedString("prediction.mlock.desc", comment: "")
+                )
+                Toggle("", isOn: $mlock)
+                    .labelsHidden()
+                    .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
+            }
+            .frame(maxWidth: 140, alignment: .leading)
+            
+            HStack(spacing: 4) {
+                Text("prediction.mmap")
+                infoButton(
+                    key: "mmap",
+                    title: NSLocalizedString("prediction.mmap", comment: ""),
+                    description: NSLocalizedString("prediction.mmap.desc", comment: "")
+                )
+                Toggle("", isOn: $mmap)
+                    .labelsHidden()
+                    .disabled(self.model_inference != "llama" && self.model_inference_inner != "gpt2" )
+            }
+            .frame(maxWidth: 140, alignment: .leading)
+            
             Spacer()
         }
         .padding(.horizontal, 5)
         .padding(.bottom, 4)
         
-        HStack {
-            Text("Context:")
+        HStack(spacing: 4) {
+            Text("prediction.context")
                 .frame(maxWidth: 75, alignment: .leading)
-            TextField("size..", value: $model_context, format:.number)
+            infoButton(
+                key: "context",
+                title: NSLocalizedString("prediction.context", comment: ""),
+                description: NSLocalizedString("prediction.context.desc", comment: "")
+            )
+            TextField("prediction.placeholder.size", value: $model_context, format:.number)
                 .frame( alignment: .leading)
                 .multilineTextAlignment(.trailing)
                 .textFieldStyle(.plain)
@@ -78,10 +174,15 @@ struct PredictionSettingsView: View {
         }
         .padding(.horizontal, 5)
         
-        HStack {
-            Text("Batch size:")
+        HStack(spacing: 4) {
+            Text("prediction.batchSize")
                 .frame(maxWidth: 100, alignment: .leading)
-            TextField("size..", value: $model_n_batch, format:.number)
+            infoButton(
+                key: "batchSize",
+                title: NSLocalizedString("prediction.batchSize", comment: ""),
+                description: NSLocalizedString("prediction.batchSize.desc", comment: "")
+            )
+            TextField("prediction.placeholder.size", value: $model_n_batch, format:.number)
                 .frame( alignment: .leading)
                 .multilineTextAlignment(.trailing)
                 .textFieldStyle(.plain)
@@ -91,10 +192,15 @@ struct PredictionSettingsView: View {
         }
         .padding(.horizontal, 5)
 
-        HStack {
-            Text("Predict count:")
+        HStack(spacing: 4) {
+            Text("prediction.predictCount")
                 .frame(maxWidth: 120, alignment: .leading)
-            TextField("count..", value: $n_predict, format:.number)
+            infoButton(
+                key: "predictCount",
+                title: NSLocalizedString("prediction.predictCount", comment: ""),
+                description: NSLocalizedString("prediction.predictCount.desc", comment: "")
+            )
+            TextField("prediction.placeholder.count", value: $n_predict, format:.number)
                 .frame( alignment: .leading)
                 .multilineTextAlignment(.trailing)
                 .textFieldStyle(.plain)
