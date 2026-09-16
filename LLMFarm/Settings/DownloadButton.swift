@@ -63,6 +63,7 @@ extension FileDownloadManager: URLSessionDownloadDelegate {
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
         guard let key = downloadTasks[downloadTask.taskIdentifier] else { return }
+        // HuggingFace отдаёт -1 при редиректе — защита от схлопывания в 100%
         guard totalBytesExpectedToWrite > 0 else { return }
         let p = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
         DispatchQueue.main.async {
@@ -75,6 +76,24 @@ extension FileDownloadManager: URLSessionDownloadDelegate {
                     didFinishDownloadingTo location: URL) {
         guard let key = downloadTasks[downloadTask.taskIdentifier] else { return }
         guard let destination = destinations[key] else { return }
+
+        // ЗАЩИТА: файл должен быть достаточно большим, чтобы быть моделью.
+        // 15-байтные ответы — это HTML-страницы ошибок (404, Unauthorized), а не GGUF.
+        let attributes = try? FileManager.default.attributesOfItem(atPath: location.path)
+        let size = (attributes?[.size] as? NSNumber)?.int64Value ?? 0
+        let MIN_MODEL_SIZE: Int64 = 1_000_000  // 1 МБ — любой GGUF больше
+
+        if size < MIN_MODEL_SIZE {
+            // Читаем содержимое, чтобы показать его в ошибке
+            let text = (try? String(contentsOf: location, encoding: .utf8)) ?? "<бинарные данные>"
+            let preview = text.prefix(200)
+            DispatchQueue.main.async {
+                self.statusByKey[key] = .failed("Файл повреждён (размер \(size) Б). Ответ сервера: \(preview)")
+                self.progressByKey[key] = 0.0
+            }
+            return
+        }
+
         do {
             if FileManager.default.fileExists(atPath: destination.path) {
                 try FileManager.default.removeItem(at: destination)
@@ -120,6 +139,9 @@ struct DownloadButton: View {
     // Диалог-предупреждение перед началом загрузки
     @State private var showWarning: Bool = false
 
+    // Сообщение об ошибке для показа пользователю
+    @State private var errorMessage: String? = nil
+
     private var fileKey: String { filename }
 
     // Фактический старт загрузки — вызывается после подтверждения в alert
@@ -128,6 +150,7 @@ struct DownloadButton: View {
         print("Downloading model \(modelName) from \(modelUrl)")
         guard let url = URL(string: modelUrl) else {
             status = "download"
+            errorMessage = "Некорректный URL: \(modelUrl)"
             return
         }
         let fileURL = getFileURLFormPathStr(dir: "models", filename: filename)
@@ -169,7 +192,7 @@ struct DownloadButton: View {
                 Text("Unknown status")
             }
         }
-        // Alert: предупреждение о необходимости не выходить из приложения
+        // Alert 1: предупреждение о необходимости не выходить из приложения
         .alert("Не выходите из приложения", isPresented: $showWarning) {
             Button("Отмена", role: .cancel) {
                 // Пользователь отказался — ничего не делаем
@@ -180,6 +203,17 @@ struct DownloadButton: View {
         } message: {
             Text("Пока модель загружается, не выходите из приложения и не сворачивайте его. При выходе загрузка прервётся и начнётся заново.")
         }
+        // Alert 2: показ ошибки загрузки
+        .alert("Ошибка загрузки", isPresented: Binding(
+            get: { errorMessage != nil },
+            set: { if !$0 { errorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {
+                errorMessage = nil
+            }
+        } message: {
+            Text(errorMessage ?? "")
+        }
         .onDisappear {
             // Загрузка продолжается в фоне через синглтон — НЕ отменяем
         }
@@ -189,6 +223,7 @@ struct DownloadButton: View {
                 status = "downloaded"
             case .failed(let msg):
                 print("Download failed: \(msg)")
+                errorMessage = msg
                 status = "download"
             case .idle:
                 if status == "downloading" { status = "download" }
