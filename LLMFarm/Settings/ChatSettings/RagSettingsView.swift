@@ -29,6 +29,9 @@ struct RagSettingsView: View {
     @Binding private var chunkMethod: TextSplitterType
     @Binding private var ragTop: Int
     
+    /// Идентификатор открытого popover'а (nil — закрыт)
+    @State private var activeInfo: String? = nil
+    
     init (  ragDir:String,
             chunkSize: Binding<Int>,
             chunkOverlap: Binding<Int>,
@@ -47,17 +50,52 @@ struct RagSettingsView: View {
         self._ragTop = ragTop
     }
 
+    // MARK: - Info button
+    
+    private func infoButton(key: String,
+                            title: String,
+                            description: String) -> some View {
+        Button {
+            activeInfo = (activeInfo == key) ? nil : key
+        } label: {
+            Image(systemName: "info.circle")
+                .foregroundColor(.secondary)
+                .font(.caption)
+        }
+        .buttonStyle(.plain)
+        .popover(isPresented: Binding(
+            get: { activeInfo == key },
+            set: { if !$0 { activeInfo = nil } }
+        )) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title)
+                    .font(.headline)
+                Text(description)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(12)
+            .frame(maxWidth: 280)
+            .presentationCompactAdaptation(.popover)
+        }
+    }
     
     var body: some View {
         ScrollView(showsIndicators: false){
             VStack {
                 GroupBox(label:
-                            Text("RAG Settings")
+                            Text("rag.section.settings")
                 ) {
-                    HStack {
-                        Text("Chunk Size:")
+                    HStack(spacing: 4) {
+                        Text("rag.chunkSize")
                             .frame(maxWidth: 100, alignment: .leading)
-                        TextField("size..", value: $chunkSize, format:.number)
+                        infoButton(
+                            key: "chunkSize",
+                            title: NSLocalizedString("rag.chunkSize", comment: ""),
+                            description: NSLocalizedString("rag.chunkSize.desc", comment: "")
+                        )
+                        TextField("rag.placeholder.size", value: $chunkSize, format:.number)
                             .frame( alignment: .leading)
                             .multilineTextAlignment(.trailing)
                             .textFieldStyle(.plain)
@@ -67,10 +105,15 @@ struct RagSettingsView: View {
                     }   
 //                    .padding(.horizontal, 5)
                     
-                    HStack {
-                        Text("Chunk Overlap:")
+                    HStack(spacing: 4) {
+                        Text("rag.chunkOverlap")
                             .frame(maxWidth: 100, alignment: .leading)
-                        TextField("size..", value: $chunkOverlap, format:.number)
+                        infoButton(
+                            key: "chunkOverlap",
+                            title: NSLocalizedString("rag.chunkOverlap", comment: ""),
+                            description: NSLocalizedString("rag.chunkOverlap.desc", comment: "")
+                        )
+                        TextField("rag.placeholder.size", value: $chunkOverlap, format:.number)
                             .frame( alignment: .leading)
                             .multilineTextAlignment(.trailing)
                             .textFieldStyle(.plain)
@@ -81,9 +124,14 @@ struct RagSettingsView: View {
 //                    .padding(.horizontal, 5)
 
                     
-                    HStack{
-                        Text("Embedding Model:")
+                    HStack(spacing: 4){
+                        Text("rag.embeddingModel")
                             .frame(maxWidth: 100, alignment: .leading)
+                        infoButton(
+                            key: "embeddingModel",
+                            title: NSLocalizedString("rag.embeddingModel", comment: ""),
+                            description: NSLocalizedString("rag.embeddingModel.desc", comment: "")
+                        )
                         Picker("", selection: $currentModel) {
                             ForEach(SimilarityIndex.EmbeddingModelType.allCases, id: \.self) { option in
                                 Text(String(describing: option))
@@ -93,9 +141,14 @@ struct RagSettingsView: View {
                         .pickerStyle(.menu)
                     }
                     
-                    HStack{
-                        Text("Similarity Metric:")
+                    HStack(spacing: 4){
+                        Text("rag.similarityMetric")
                             .frame(maxWidth: 120, alignment: .leading)
+                        infoButton(
+                            key: "similarityMetric",
+                            title: NSLocalizedString("rag.similarityMetric", comment: ""),
+                            description: NSLocalizedString("rag.similarityMetric.desc", comment: "")
+                        )
                         Picker("", selection: $comparisonAlgorithm) {
                             ForEach(SimilarityIndex.SimilarityMetricType.allCases, id: \.self) { option in
                                 Text(String(describing: option))
@@ -105,9 +158,14 @@ struct RagSettingsView: View {
                         .pickerStyle(.menu)
                     }
                     
-                    HStack{
-                        Text("Text Splitter:")
+                    HStack(spacing: 4){
+                        Text("rag.textSplitter")
                             .frame(maxWidth: 120, alignment: .leading)
+                        infoButton(
+                            key: "textSplitter",
+                            title: NSLocalizedString("rag.textSplitter", comment: ""),
+                            description: NSLocalizedString("rag.textSplitter.desc", comment: "")
+                        )
                         Picker("", selection: $chunkMethod) {
                             ForEach(TextSplitterType.allCases, id: \.self) { option in
                                 Text(String(describing: option))
@@ -117,10 +175,15 @@ struct RagSettingsView: View {
                         .pickerStyle(.menu)
                     }
                     
-                    HStack {
-                        Text("Max RAG answers count:")
+                    HStack(spacing: 4) {
+                        Text("rag.maxAnswers")
                             .frame(maxWidth: 100, alignment: .leading)
-                        TextField("count..", value: $ragTop, format:.number)
+                        infoButton(
+                            key: "maxAnswers",
+                            title: NSLocalizedString("rag.maxAnswers", comment: ""),
+                            description: NSLocalizedString("rag.maxAnswers.desc", comment: "")
+                        )
+                        TextField("rag.placeholder.count", value: $ragTop, format:.number)
                             .frame( alignment: .leading)
                             .multilineTextAlignment(.trailing)
                             .textFieldStyle(.plain)
@@ -133,7 +196,7 @@ struct RagSettingsView: View {
 //                .padding(.horizontal, 1)
 
                 GroupBox(label:
-                            Text("RAG Debug")
+                            Text("rag.section.debug")
                 ) {
                     HStack{
                         Button(
@@ -143,7 +206,7 @@ struct RagSettingsView: View {
                                 }
                             },
                             label: {
-                                Text("Rebuild index")
+                                Text("rag.debug.rebuildIndex")
                                     .font(.title2)
                             }
                         )
@@ -156,7 +219,7 @@ struct RagSettingsView: View {
                                 }
                             },
                             label: {
-                                Text("Load index")
+                                Text("rag.debug.loadIndex")
                                     .font(.title2)
                             }
                         )
@@ -166,7 +229,7 @@ struct RagSettingsView: View {
                     Text(loadIndexResult)
 //                        .padding(.top)
                     
-                    TextField("Search text", text: $inputText, axis: .vertical )
+                    TextField("rag.debug.searchPlaceholder", text: $inputText, axis: .vertical )
                         .onSubmit {
                             Task{
                                 await Search()
@@ -213,7 +276,7 @@ struct RagSettingsView: View {
                             }
                         },
                         label: {
-                            Text("Search and Generate Prompt")
+                            Text("rag.debug.searchAndGenerate")
                                 .font(.title2)
                         }
                     )
@@ -239,14 +302,14 @@ struct RagSettingsView: View {
         let end = DispatchTime.now()   // конец замера времени
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds // наносекунды
         let timeInterval = Double(nanoTime) / 1_000_000_000 // преобразуем в секунды
-        loadIndexResult = String(timeInterval) + " sec"
+        loadIndexResult = String(timeInterval) + " " + NSLocalizedString("rag.debug.sec", comment: "Единица измерения времени: секунды")
         saveIndex(url: ragURL, name: "RAG_index")
     }
     
     func LoadIndex(ragURL: URL) async{
         updateIndexComponents(currentModel:currentModel,comparisonAlgorithm:comparisonAlgorithm,chunkMethod:chunkMethod)
         await loadExistingIndex(url: ragURL, name: "RAG_index")
-        loadIndexResult =  "Loaded"
+        loadIndexResult = NSLocalizedString("rag.debug.loaded", comment: "Статус: индекс загружен")
     }
     
     func Search() async{
