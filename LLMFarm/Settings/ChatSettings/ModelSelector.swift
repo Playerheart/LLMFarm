@@ -15,7 +15,20 @@ struct ModelSelector: View {
     var avalible_lable: String
 
     @State private var isModelImporting: Bool = false
-  
+
+    // Плейсхолдеры, которые приходят из ChatSettingsView как @State-значения
+    // и одновременно используются в сравнениях (нельзя менять). Но при
+    // отображении в UI показываем локализованный selection_lable.
+    private var modelSelectorLabel: String {
+        if model_file_path.isEmpty ||
+           model_file_path == "Select model" ||
+           model_file_path == "Select Clip model" ||
+           model_file_path == "Add LoRA adapter" {
+            return selection_lable
+        }
+        return model_file_path
+    }
+
     var body: some View {
         HStack {
             Menu {
@@ -50,7 +63,7 @@ struct ModelSelector: View {
                     }
                 }
             } label: {
-                Label(model_file_path == "" ?selection_lable:model_file_path, systemImage: "ellipsis.circle")
+                Label(modelSelectorLabel, systemImage: "ellipsis.circle")
             }
         }
         .fileImporter(
@@ -78,4 +91,3 @@ struct ModelSelector: View {
         }
     }
 }
-
