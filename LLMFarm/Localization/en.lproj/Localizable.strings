@@ -289,3 +289,16 @@
 "message.showText" = "Show text";
 "message.stats.timeAndSpeed" = "%.2f s, %.2f t/s";
 "message.stats.tokensTimeSpeed" = "%i t, %.2f s, %.2f t/s";
+/* --- Message copy buttons --- */
+
+/* Кнопка: копировать весь текст сообщения */
+"message.copy.all" = "Copy all";
+
+/* Индикатор: текст скопирован */
+"message.copied.all" = "Copied";
+
+/* Кнопка: копировать только блоки кода */
+"message.copy.code" = "Copy code";
+
+/* Индикатор: блоки кода скопированы */
+"message.copied.code" = "Code copied";
