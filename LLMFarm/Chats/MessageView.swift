@@ -13,6 +13,10 @@ struct MessageView: View {
     @Binding var chatStyle: String
     @State var status: String?
 
+    // Для кнопок "Копировать"
+    @State private var copiedAll: Bool = false
+    @State private var copiedCode: Bool = false
+
     private struct SenderView: View {
         var sender: Message.Sender
         var current_model = "LLM"
@@ -84,7 +88,6 @@ struct MessageView: View {
                                 }
                             )
                             .buttonStyle(.borderless)
-                            //                        .frame(maxWidth:50,maxHeight: 50)
                             if showRag{
                                 Text(LocalizedStringKey(message.text)).font(.footnote).textSelection(.enabled)
                             }
@@ -153,12 +156,138 @@ struct MessageView: View {
                     .padding(12.0)
                     .background(Color.secondary.opacity(0.2))
                     .cornerRadius(12.0)
+                
+                // Кнопки «Копировать» — только для готовых ответов LLM
+                if message.sender == .system {
+                    if case .predicted = message.state {
+                        HStack(spacing: 14) {
+                            copyAllButton
+                            if !codeBlocks.isEmpty {
+                                copyCodeButton
+                            }
+                            Spacer()
+                        }
+                    }
+                }
             }
 
             if message.sender == .system {
                 Spacer()
             }
         }
+    }
+    
+    // MARK: - Блоки кода в тексте сообщения
+    
+    /// Все блоки ```...``` из Markdown-текста, склеенные построчно.
+    /// Строку с указанием языка (```swift, ```python) пропускает.
+    private var codeBlocks: [String] {
+        MessageView.extractCodeBlocks(from: message.text)
+    }
+    
+    // MARK: - Кнопки копирования
+    
+    private var copyAllButton: some View {
+        Button {
+            copyToClipboard(message.text)
+            withAnimation(.easeInOut(duration: 0.15)) {
+                copiedAll = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    copiedAll = false
+                }
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: copiedAll ? "checkmark" : "doc.on.doc")
+                    .font(.footnote)
+                    .foregroundColor(copiedAll ? .green : .secondary)
+                Text(LocalizedStringKey(copiedAll
+                                        ? "message.copied.all"
+                                        : "message.copy.all"))
+                    .font(.caption2)
+                    .foregroundColor(copiedAll ? .green : .secondary)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+    
+    private var copyCodeButton: some View {
+        Button {
+            let code = codeBlocks.joined(separator: "\n\n")
+            copyToClipboard(code)
+            withAnimation(.easeInOut(duration: 0.15)) {
+                copiedCode = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    copiedCode = false
+                }
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: copiedCode ? "checkmark" : "chevron.left.forwardslash.chevron.right")
+                    .font(.footnote)
+                    .foregroundColor(copiedCode ? .green : .secondary)
+                Text(LocalizedStringKey(copiedCode
+                                        ? "message.copied.code"
+                                        : "message.copy.code"))
+                    .font(.caption2)
+                    .foregroundColor(copiedCode ? .green : .secondary)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+    
+    // MARK: - Буфер обмена
+    
+    private func copyToClipboard(_ text: String) {
+#if os(macOS)
+        let pb = NSPasteboard.general
+        pb.clearContents()
+        pb.setString(text, forType: .string)
+#else
+        UIPasteboard.general.string = text
+#endif
+    }
+    
+    // MARK: - Разбор блоков кода
+    
+    /// Возвращает содержимое всех блоков ```...``` из текста.
+    /// Строку с указанием языка (```swift, ```python и т.п.) пропускает.
+    static func extractCodeBlocks(from text: String) -> [String] {
+        var blocks: [String] = []
+        let lines = text.components(separatedBy: "\n")
+        var inCode = false
+        var current: [String] = []
+        
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+            if trimmed.hasPrefix("```") {
+                if inCode {
+                    // Закрывающая ```
+                    if !current.isEmpty {
+                        blocks.append(current.joined(separator: "\n"))
+                    }
+                    current = []
+                    inCode = false
+                } else {
+                    // Открывающая ```
+                    inCode = true
+                    current = []
+                }
+            } else if inCode {
+                current.append(line)
+            }
+        }
+        
+        // Если блок не был закрыт — всё равно добавим
+        if inCode && !current.isEmpty {
+            blocks.append(current.joined(separator: "\n"))
+        }
+        
+        return blocks
     }
 }
 
